@@ -1,0 +1,23 @@
+MapStruct is a Java library used to convert (map) one Java object into another automatically.
+Why do we need MapStruct?
+
+In real applications (especially Spring Boot), you often have:
+
+Entity classes (database objects)
+
+DTO classes (API request/response objects)
+
+Example:
+
+UserEntity → UserDTO
+
+OrderDTO → OrderEntity
+
+Without MapStruct, you would write repetitive code like:
+
+UserDTO dto = new UserDTO();
+dto.setId(entity.getId());
+dto.setName(entity.getName());
+dto.setEmail(entity.getEmail());
+
+MapStruct is a compile-time Java mapper that automatically converts one object into another, replacing manual getter–setter code.
