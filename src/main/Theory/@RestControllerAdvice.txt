@@ -1,0 +1,15 @@
+@RestControllerAdvice is global exception handler , that handles all the exceptions of the controller classes
+
+@BindingResult contains
+BindingResult
+├── objectName = "createEventRequestDto"
+├── target = CreateEventRequestDto
+├── errorCount = 3
+├── hasErrors = true
+├── fieldErrors = [
+│     FieldError(name, "", "Event name is required"),
+│     FieldError(startTime, null, "Start time is required"),
+│     FieldError(endTime, 2020-01-01T10:00, "End time must be in the future")
+│   ]
+├── globalErrors = []│
+└── suppressedFields = []

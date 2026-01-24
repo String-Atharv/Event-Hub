@@ -1,0 +1,17 @@
+OAuth 2.0 uses an external Authorization Server that authenticates the user and authorizes client and issues a JWT (access token) to a client application.
+The Resource Server (another app) validates the JWT using the Authorization Server’s public key.
+If the user does not exist in the application database, the application creates and stores a local user record based on the token claims.
+
+
+User logs in at Authorization Server (Keycloak / Google)
+Authorization Server authenticates user
+Authorization Server issues JWT access token
+Client (frontend) receives token
+Client sends token to backend API
+Backend API (Resource Server):
+Validates JWT signature using public key
+Validates expiry, issuer, audience
+Backend checks DB:
+User exists → continue
+User missing → create user (provisioning)
+Request is processed
