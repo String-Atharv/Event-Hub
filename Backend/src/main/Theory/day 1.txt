@@ -1,0 +1,5 @@
+postgreSQL runs in docker for local consistent environment
+Adminer Provides a web interface to maange the database
+Spring boot connects to postgreSQL using configuration properties
+
+docker is like virtual machine for ome app , it lets you to run applications in isolated environment

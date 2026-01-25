@@ -1,0 +1,2 @@
+If two objects are equal according to equals(),
+then they MUST return the same hashCode().

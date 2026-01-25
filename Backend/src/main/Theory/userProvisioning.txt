@@ -1,0 +1,3 @@
+in this project we are using the keycloak as authentication and authorization server , so as  user does authentication , client gets th jwt token , but user is not recorded in applications's db , so if the user is not available in application's db are receiving the jwt to client , then we must record the user in db
+
+if we were not using the kwycloak server , then first user is stored in db , then jwt is generated and given to client

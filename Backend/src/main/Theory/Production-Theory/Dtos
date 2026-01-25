@@ -1,0 +1,1 @@
+never uses entity classes for the api requests/reponse , always use DTO's
