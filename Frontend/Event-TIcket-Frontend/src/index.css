@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    /* Fluid base font size: 14px at 375px, 16px at 1280px */
+    font-size: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900 dark:bg-netflix-black dark:text-white transition-colors duration-300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure minimum touch target size on mobile for standard inputs if needed, 
+     but let components manage their own sizes to avoid distortion */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="datetime-local"],
+  select,
+  textarea {
+    @apply min-h-[44px] bg-white dark:bg-netflix-gray text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 transition-colors duration-200;
+  }
+
+  /* Global Table dark mode styles */
+  table {
+    @apply bg-white dark:bg-netflix-dark text-gray-900 dark:text-gray-100;
+  }
+
+  thead {
+    @apply bg-gray-50 dark:bg-netflix-gray text-gray-500 dark:text-gray-400;
+  }
+
+  tr {
+    @apply border-gray-200 dark:border-gray-800;
+  }
+
+  th {
+    @apply font-semibold uppercase tracking-wider;
+  }
+
+  td,
+  th {
+    @apply px-6 py-4;
+  }
+
+  .btn-sm {
+    min-height: auto;
+  }
+}
+
+@layer components {
+
+  /* Responsive section padding */
+  .section-padding {
+    @apply px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-12;
+  }
+
+  /* Responsive container */
+  .container-responsive {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Responsive grid for cards */
+  .card-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6;
+  }
+
+  /* Responsive heading sizes */
+  .heading-xl {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold;
+  }
+
+  .heading-lg {
+    @apply text-xl sm:text-2xl lg:text-3xl font-bold;
+  }
+
+  .heading-md {
+    @apply text-lg sm:text-xl font-semibold;
+  }
+}
+
+@layer utilities {
+
+  /* Hide scrollbar utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Safe area padding for mobile notches */
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
