@@ -1,6 +1,8 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import { API_BASE_URL } from '@/utils/constants';
 import { ApiError } from '@/types';
+import { authConfig } from '@/config/auth';
+import * as authService from '@/services/authService';
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -13,6 +15,9 @@ const apiClient: AxiosInstance = axios.create({
 // List of public endpoints that don't require authentication
 const PUBLIC_ENDPOINTS = [
   '/published-events',
+  '/auth/login',
+  '/auth/register',
+  '/auth/refresh',
 ];
 
 // Helper function to check if URL is public
@@ -21,16 +26,36 @@ const isPublicEndpoint = (url?: string): boolean => {
   return PUBLIC_ENDPOINTS.some(endpoint => url.startsWith(endpoint));
 };
 
-// Request interceptor - Add JWT token from Keycloak (skip for public endpoints)
+// Request interceptor - Add JWT token (skip for public endpoints)
 apiClient.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) => {
+  async (config: InternalAxiosRequestConfig) => {
     // Skip auth for public endpoints
     if (isPublicEndpoint(config.url)) {
       return config;
     }
 
-    // Get token from localStorage (set by Keycloak integration)
-    const token = localStorage.getItem('keycloak_token');
+    // Get token from localStorage
+    let token = localStorage.getItem(authConfig.storage.accessToken);
+
+    // Check if token needs refresh
+    if (token && authService.shouldRefreshToken(token)) {
+      const refreshTokenValue = authService.getRefreshToken();
+      if (refreshTokenValue) {
+        try {
+          const response = await authService.refreshToken(refreshTokenValue);
+          authService.setStoredTokens(response.accessToken, response.refreshToken);
+          token = response.accessToken;
+          // Also update user info
+          const user = authService.parseUserFromToken(response.accessToken);
+          authService.setStoredUser(user);
+        } catch (error) {
+          // Refresh failed, clear tokens and redirect to login
+          authService.logout();
+          window.location.href = '/login';
+          return Promise.reject(new Error('Session expired'));
+        }
+      }
+    }
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -54,13 +79,9 @@ apiClient.interceptors.response.use(
 
     // Handle 401 Unauthorized - Token expired or invalid (skip for public endpoints)
     if (error.response?.status === 401 && !isPublicEndpoint(error.config?.url)) {
-      // Clear token and redirect to Keycloak login
-      localStorage.removeItem('keycloak_token');
-      localStorage.removeItem('keycloak_user');
-      // Import dynamically to avoid circular dependency
-      import('@/services/keycloakService').then(({ redirectToKeycloakLogin }) => {
-        redirectToKeycloakLogin();
-      });
+      // Clear tokens and redirect to login
+      authService.logout();
+      window.location.href = '/login';
     }
 
     // Handle validation errors (400)

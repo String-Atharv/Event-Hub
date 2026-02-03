@@ -4,214 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c824a420-aaab-46e7-b58d-a4a8bec56ede" name="Changes" comment="29 dec commit - where claude made successdull changes and create event was working....">
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Config/JwtAuthenticationConverter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Config/KeycloakAdminConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/AnalyticsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/KeycloakRoleController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/KeycloakStaffController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/OrganiserDashboardController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/PublishEventController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/StaffValidationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/TicketController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/AnalyticDtos/EventAnalyticsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/AnalyticDtos/OrganiserCompleteAnalyticsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/AnalyticDtos/TicketTypeAnalyticsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/AnalyticDtos/TicketTypePerformanceDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/AnalyticDtos/ValidatedAttendeeResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/EventDtoForTicketPurchase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/EventResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/ListEventResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/PublishEventDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/UpdateEventRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/UpdatedEventResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/QrCodeDtos/QrCodeDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/StaffDtos/GenerateStaffRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/StaffDtos/GenerateStaffResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/StaffDtos/StaffCredentialWithPasswordDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/StaffDtos/StaffCredentialsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketDtos/TicketPurchasedDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketDtos/TicketPurchasedDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketDtos/TicketValidationResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/ListEventTicketTypeResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/TicketTypeDetails.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/TicketTypeDtoForTicketPurchase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/TicketTypeRevenueDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/UpdateTicketTypeRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/UpdatedTicketTypeResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketValidationDtos/EventValidationStatsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketValidationDtos/StaffValidationStatsDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketValidationDtos/TicketTypeAttendanceDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketValidationDtos/TicketValidationResponseDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketValidationDtos/ValidationHistoryDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/Staff.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Enum/EventType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Mapper/TicketMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Exceptions/QrCodeNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Exceptions/QrCodeNotGeneratedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Exceptions/ResourceNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Exceptions/TicketNotPurchasedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Exceptions/TicketSoldOutException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Filters/StaffValidationFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Repository/QrCodeRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Repository/StaffRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Repository/TicketTypeRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Repository/TicketValidationRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Repository/TicketsRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/AnalyticsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/KeycloakRoleService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/KeycloakUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/OrganiserDashboardService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/QrServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/StaffTicketValidationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/TicketServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/ValidationStatsService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceInterface/QrService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceInterface/TicketService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceInterface/TicketTypeService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceInterface/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/util/UserFromJwt.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/util/generatePublicQrCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/EventPlatformApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/config/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/controller/EventController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/controller/QRCodeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/exception/GlobalExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/model/Event.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/model/Ticket.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/model/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/repository/EventRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/repository/TicketRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/service/QRCodeService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/java/com/eventplatform/service/TicketService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/resources/application-dev.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-App/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/postcss.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/client.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/analytics.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/auth.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/events.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/organiser.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/publishedEvents.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/roles.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/staff.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/endpoints/tickets.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/QRScanner.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Badge.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Button.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Card.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/Input.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/ProfileDropdown.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/PromoteToOrganiserButton.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/RoleBadges.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/common/ThemeToggle.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/feedback/ErrorBoundary.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/feedback/Spinner.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/EventForms.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/forms/TicketTypesForm.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/EventForm.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Header.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/PageContainer.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Sidebar.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/StaffLayout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/modals/StaffDetailModal.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/organiser/analytics/AnalyticsPanel.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/organiser/analytics/DashboardOverview.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/organiser/analytics/DrillDownSection.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/organiser/analytics/EventDetailsSummary.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/organiser/analytics/MetricCard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/config/keycloak.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/context/AuthContext.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/context/ThemeContext.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useAuth.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useLocalStorage.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/main.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/auth/Callback.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Analytics.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Dashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/EventAnalyticsDashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/EventDashboard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/EventStaffManagement.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/EventStats.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Events/EventCreate.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Events/EventDetails.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Events/EventEdit.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Events/EventList.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Events/EventTickets.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/OrganiserLandingPage.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/OrganiserLandingPage.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Settings.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/StaffManagement.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/organiser/Tickets.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/BrowseEvents.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/MyTickets.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/public/PublishedEventDetails.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/shared/NotFound.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/shared/Unauthorized.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/staff/StaffValidation.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/repomix-output.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/GlobalRouteGuard.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/ProtectedRoute.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/RoleProtectedRoute.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/StaffProtectedRoute.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/routes/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/keycloakService.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/types/analytics.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/types/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/formatters.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/jwt.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/roles.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/utils/validators.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/vite-env.d.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/tailwind.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.node.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/spring-boot-backend-context.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/Theory/@RestControllerAdvice" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/Theory/@RestControllerAdvice.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/Theory/FlowOfProject.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/Theory/FlowOfProject.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/EventController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Controllers/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/CreateEventRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/CreateEventRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/CreateTicketTypeRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/CreateTicketTypeRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/ErrorDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/ErrorDtos/ErrorDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventCreatedResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/EventDtos/EventCreatedResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeCreatedResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/DTO/TicketTypeDto/TicketTypeCreatedResponseDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/QrCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/QrCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/TicketType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/TicketType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/TicketValidation.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Entity/TicketValidation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Enum/TicketStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Enum/TicketStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Enum/TicketValidationStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Enum/TicketValidationStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Mapper/EventMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Mapper/EventMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Requests/CreateEventRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Domain/Requests/CreateEventRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/EventTicketPlatformApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/EventTicketPlatformApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Filters/UserProvisioningFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Filters/UserProvisioningFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Repository/EventRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Repository/EventRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/EventServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/EventServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceImpl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceInterface/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/java/com/atharv/Event_Ticket_Platform/Service/ServiceInterface/EventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Event-Ticket-Platform/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../email" beforeDir="false" afterPath="$PROJECT_DIR$/../email" afterDir="false" />
-    </list>
+    <list default="true" id="c824a420-aaab-46e7-b58d-a4a8bec56ede" name="Changes" comment="29 dec commit - where claude made successdull changes and create event was working...." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -227,7 +20,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="HighlightingSettingsPerFile">
@@ -273,9 +66,9 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "full.screen.before.presentation.mode": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/atharvshivale/Projects/Spring-boot/Event-Ticket-Platform GitHub",
+    "last_opened_file_path": "/Users/atharvshivale/Desktop/Event-Hub",
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",

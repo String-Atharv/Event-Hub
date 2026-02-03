@@ -1,19 +1,15 @@
 package com.atharv.Event_Ticket_Platform.Controllers;
 
-import com.atharv.Event_Ticket_Platform.Domain.DTO.AnalyticDtos.ValidatedAttendeeResponse;
+import com.atharv.Event_Ticket_Platform.Security.UserPrincipal;
 import com.atharv.Event_Ticket_Platform.Service.ServiceImpl.AnalyticsService;
 import com.atharv.Event_Ticket_Platform.Service.ServiceImpl.ValidationStatsService;
-import com.atharv.Event_Ticket_Platform.util.UserFromJwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -65,10 +61,10 @@ public class OrganiserDashboardController {
      */
     @GetMapping("/stats")
     public ResponseEntity<?> getEventDashboardStats(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID eventId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting dashboard stats for event {}", organiserId, eventId);
 
         try {
@@ -105,10 +101,10 @@ public class OrganiserDashboardController {
      */
     @GetMapping("/ticket-types")
     public ResponseEntity<?> getValidationsByTicketType(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID eventId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting ticket type stats for event {}", organiserId, eventId);
 
         try {
@@ -145,10 +141,10 @@ public class OrganiserDashboardController {
      */
     @GetMapping("/staff")
     public ResponseEntity<?> getValidationsByStaff(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID eventId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting staff stats for event {}", organiserId, eventId);
 
         try {
@@ -189,12 +185,12 @@ public class OrganiserDashboardController {
      */
     @GetMapping("/staff/{staffUserId}/validations")
     public ResponseEntity<?> getAttendeesValidatedByStaff(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID eventId,
             @PathVariable UUID staffUserId,
             Pageable pageable
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting validation details for staff {} in event {}",
                 organiserId, staffUserId, eventId);
 
@@ -222,10 +218,10 @@ public class OrganiserDashboardController {
      */
     @GetMapping("/revenue")
     public ResponseEntity<?> getRevenueStats(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID eventId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting revenue stats for event {}", organiserId, eventId);
 
         try {
@@ -254,11 +250,11 @@ public class OrganiserDashboardController {
      */
     @GetMapping("/attendees")
     public ResponseEntity<?> getValidatedAttendees(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID eventId,
             Pageable pageable
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting validated attendees for event {}",
                 organiserId, eventId);
 

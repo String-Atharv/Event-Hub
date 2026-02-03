@@ -49,28 +49,30 @@ export const StaffValidation = () => {
     const validatedCount = stats?.validatedCount ?? history.length;
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6 p-4">
+        <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6 p-2 sm:p-4 pb-20">
             {/* Header & Stats */}
-            <div className="bg-white dark:bg-netflix-dark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-colors duration-300">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Ticket Validation</h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        Event: <span className="font-semibold text-gray-900 dark:text-white">
-                            {stats ? (stats.eventName || 'Unknown Event') : 'Loading Event...'}
-                        </span>
-                    </p>
-                </div>
-                <div className="flex items-center gap-2">
-                    <div className="text-right">
-                        <div className="flex items-center gap-2 justify-end">
-                            <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                                Attendees Validated: {validatedCount}
+            <div className="bg-white dark:bg-netflix-dark rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-4 sm:p-6 transition-colors duration-300">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+                    <div className="w-full sm:w-auto">
+                        <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Ticket Validation</h1>
+                        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                            Event: <span className="font-semibold text-gray-900 dark:text-white">
+                                {stats ? (stats.eventName || 'Unknown Event') : 'Loading Event...'}
                             </span>
-                            <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                            </svg>
+                        </p>
+                    </div>
+                    <div className="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-2">
+                        <div className="text-left sm:text-right">
+                            <div className="flex items-center gap-2 sm:justify-end">
+                                <span className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
+                                    Attendees Validated: {validatedCount}
+                                </span>
+                                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                            </div>
+                            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">by {user?.username || user?.name || 'Staff'}</p>
                         </div>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">by {user?.username || user?.name || 'Staff'}</p>
                     </div>
                 </div>
             </div>

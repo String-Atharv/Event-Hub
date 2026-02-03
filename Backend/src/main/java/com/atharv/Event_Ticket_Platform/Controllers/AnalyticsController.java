@@ -1,13 +1,12 @@
 package com.atharv.Event_Ticket_Platform.Controllers;
 
+import com.atharv.Event_Ticket_Platform.Security.UserPrincipal;
 import com.atharv.Event_Ticket_Platform.Service.ServiceImpl.AnalyticsService;
-import com.atharv.Event_Ticket_Platform.util.UserFromJwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,8 +78,8 @@ public class AnalyticsController {
      * }
      */
     @GetMapping("/complete")
-    public ResponseEntity<?> getCompleteAnalytics(@AuthenticationPrincipal Jwt jwt) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+    public ResponseEntity<?> getCompleteAnalytics(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting complete analytics", organiserId);
 
         try {
@@ -107,8 +106,8 @@ public class AnalyticsController {
      * Same structure as /complete but only for published events
      */
     @GetMapping("/published")
-    public ResponseEntity<?> getPublishedEventsAnalytics(@AuthenticationPrincipal Jwt jwt) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+    public ResponseEntity<?> getPublishedEventsAnalytics(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting published events analytics", organiserId);
 
         try {
@@ -144,10 +143,10 @@ public class AnalyticsController {
      */
     @GetMapping("/events/{eventId}")
     public ResponseEntity<?> getEventAnalytics(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @PathVariable UUID eventId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting analytics for event {}", organiserId, eventId);
 
         try {
@@ -191,8 +190,8 @@ public class AnalyticsController {
      * ]
      */
     @GetMapping("/ticket-types/performance")
-    public ResponseEntity<?> getTicketTypePerformance(@AuthenticationPrincipal Jwt jwt) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+    public ResponseEntity<?> getTicketTypePerformance(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting ticket type performance", organiserId);
 
         try {
@@ -231,10 +230,10 @@ public class AnalyticsController {
      */
     @PostMapping("/events/compare")
     public ResponseEntity<?> compareEvents(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody Map<String, List<String>> request
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = userPrincipal.getUserId();
 
         List<String> eventIdStrings = request.get("eventIds");
         if (eventIdStrings == null || eventIdStrings.isEmpty()) {
@@ -280,8 +279,8 @@ public class AnalyticsController {
      * }
      */
     @GetMapping("/summary")
-    public ResponseEntity<?> getAnalyticsSummary(@AuthenticationPrincipal Jwt jwt) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+    public ResponseEntity<?> getAnalyticsSummary(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID organiserId = userPrincipal.getUserId();
         log.info("Organiser {} requesting analytics summary", organiserId);
 
         try {

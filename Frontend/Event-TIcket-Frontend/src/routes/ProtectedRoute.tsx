@@ -1,6 +1,6 @@
 import { useAuth } from '@/hooks/useAuth';
 import { ReactNode, useEffect, useState } from 'react';
-import { redirectToKeycloakLogin } from '@/services/keycloakService';
+import { Navigate, useLocation } from 'react-router-dom';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -8,17 +8,13 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated } = useAuth();
+  const location = useLocation();
   const [isChecking, setIsChecking] = useState(true);
 
   useEffect(() => {
     // Give auth context time to initialize
     const timer = setTimeout(() => {
       setIsChecking(false);
-      
-      // Only redirect if still not authenticated after check
-      if (!isAuthenticated) {
-        redirectToKeycloakLogin();
-      }
     }, 100);
 
     return () => clearTimeout(timer);
@@ -27,25 +23,19 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // Show loading while checking authentication
   if (isChecking) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-netflix-black flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600 dark:text-gray-400">Loading...</p>
         </div>
       </div>
     );
   }
 
-  // If not authenticated after check, show loading while redirecting
+  // If not authenticated, redirect to login
   if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Redirecting to login...</p>
-        </div>
-      </div>
-    );
+    // Save the current location to redirect back after login
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;

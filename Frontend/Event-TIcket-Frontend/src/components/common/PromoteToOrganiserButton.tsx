@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 import { rolesApi } from '@/api/endpoints/roles';
 import { useAuth } from '@/hooks/useAuth';
 
 export const PromoteToOrganiserButton = () => {
     const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
 
@@ -18,15 +20,13 @@ export const PromoteToOrganiserButton = () => {
             setIsLoading(true);
             await rolesApi.promoteToOrganiser();
 
-            // Promotion successful, require re-login
-            if (confirm('Promotion successful! You need to log out and log in again to access Organiser features. Log out now?')) {
-                logout();
-            } else {
-                // If they cancel, we should probably warn them or just let them be, but features won't work.
-                // Force logout is safer usually, but let's stick to prompt. 
-                // Actually, let's auto-logout with a message if possible, but basic confirm is fine.
-                logout();
-            }
+            // Promotion successful, logout and redirect to login
+            logout();
+            navigate('/login', {
+                state: {
+                    message: 'Promotion successful! Please log in again to access Organiser features.'
+                }
+            });
         } catch (error) {
             console.error('Failed to promote:', error);
             alert('Failed to process request. Please try again.');

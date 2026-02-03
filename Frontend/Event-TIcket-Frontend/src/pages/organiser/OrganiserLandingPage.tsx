@@ -6,7 +6,7 @@ export const OrganiserLandingPage = () => {
     <div className="organiser-landing">
       <div className="landing-hero">
         <div className="hero-content">
-          <div className="hero-badge">Welcome to Event Platform</div>
+          <div className="hero-badge">Welcome to EventHub</div>
           <h1 className="hero-title">
             Create & Manage
             <span className="title-highlight"> Unforgettable Events</span>
@@ -15,7 +15,7 @@ export const OrganiserLandingPage = () => {
             Transform your ideas into extraordinary experiences. Sell tickets, manage attendees,
             and grow your event business with our powerful platform.
           </p>
-          
+
           <div className="hero-actions">
             <Link to="/events/create" className="btn-primary btn-create">
               <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -23,7 +23,7 @@ export const OrganiserLandingPage = () => {
               </svg>
               Create Event
             </Link>
-            
+
             <Link to="/dashboard" className="btn-primary btn-browse">
               <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -32,7 +32,7 @@ export const OrganiserLandingPage = () => {
             </Link>
           </div>
         </div>
-        
+
         <div className="hero-visual">
           <div className="floating-card card-1">
             <div className="card-icon">🎫</div>
@@ -48,7 +48,7 @@ export const OrganiserLandingPage = () => {
           </div>
         </div>
       </div>
-      
+
       <div className="landing-features">
         <div className="feature-item">
           <div className="feature-icon">🚀</div>

@@ -1,19 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { publishedEventsApi, PublishedEventDto } from '@/api/endpoints/publishedEvents';
-import { ticketsApi } from '@/api/endpoints/tickets';
-import { Button } from '@/components/common/Button';
-import { useAuth } from '@/hooks/useAuth';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 
 export const PublishedEventDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { isAuthenticated, login } = useAuth();
   const [event, setEvent] = useState<PublishedEventDto | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [purchasingTicketType, setPurchasingTicketType] = useState<number | null>(null);
-  const [purchaseSuccess, setPurchaseSuccess] = useState(false);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -34,46 +29,20 @@ export const PublishedEventDetails = () => {
     fetchEvent();
   }, [id]);
 
-  const handlePurchase = async (ticketTypeId: number) => {
-    if (!isAuthenticated) {
-      // Redirect to login
-      login();
-      return;
-    }
-
-    try {
-      setPurchasingTicketType(ticketTypeId);
-      setError(null);
-
-      // Purchase ticket
-      await ticketsApi.purchaseTicket(ticketTypeId);
-
-      // Show success message
-      setPurchaseSuccess(true);
-
-      // Redirect to my tickets after 2 seconds
-      setTimeout(() => {
-        navigate('/my-tickets');
-      }, 2000);
-    } catch (err: any) {
-      console.error('Failed to purchase ticket:', err);
-      setError(err.message || 'Failed to purchase ticket');
-    } finally {
-      setPurchasingTicketType(null);
-    }
-  };
-
-  const formatDateTime = (dateString: string) => {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
+      weekday: 'short',
       day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      month: 'short',
+      year: 'numeric'
     };
     return date.toLocaleDateString('en-US', options);
+  };
+
+  const formatTime = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   };
 
   const isSalesActive = (event: PublishedEventDto): boolean => {
@@ -86,23 +55,35 @@ export const PublishedEventDetails = () => {
     return true;
   };
 
+  const getLowestPrice = () => {
+    if (!event?.ticketTypes.length) return null;
+    const availableTickets = event.ticketTypes.filter(t => t.totalAvailable === undefined || t.totalAvailable > 0);
+    if (availableTickets.length === 0) return null;
+    return Math.min(...availableTickets.map(t => t.price));
+  };
+
+  const hasAvailableTickets = () => {
+    if (!event?.ticketTypes.length) return false;
+    return event.ticketTypes.some(t => t.totalAvailable === undefined || t.totalAvailable > 0);
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-red-600"></div>
+      <div className="min-h-screen bg-gray-50 dark:bg-netflix-black flex justify-center items-center transition-colors duration-300">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-300 dark:border-gray-700 border-t-cyan-500"></div>
       </div>
     );
   }
 
   if (error || !event) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-netflix-black flex flex-col justify-center items-center transition-colors duration-300">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Event Not Found</h2>
-          <p className="text-gray-500 mb-6">{error || 'The event you are looking for does not exist.'}</p>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Event Not Found</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-6">{error || 'The event you are looking for does not exist.'}</p>
           <button
             onClick={() => navigate('/')}
-            className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+            className="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors"
           >
             Back to Events
           </button>
@@ -112,190 +93,188 @@ export const PublishedEventDetails = () => {
   }
 
   const salesActive = isSalesActive(event);
+  const lowestPrice = getLowestPrice();
+
+  // Placeholder image if no imageUrl
+  const posterUrl = event.imageUrl || 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=600&fit=crop';
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-netflix-black transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white dark:bg-netflix-dark shadow-sm transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-white/80 dark:bg-netflix-dark/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between">
-            <Link to="/" className="text-2xl font-bold text-red-600 dark:text-red-500">EventHub</Link>
-            <button
-              onClick={() => navigate('/')}
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              ← Back to Events
-            </button>
+            <Link to="/" className="text-xl font-bold text-gray-900 dark:text-white">
+              <span className="text-cyan-500 dark:text-cyan-400">Event</span>Hub
+            </Link>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <button
+                onClick={() => navigate('/')}
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to Events
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Success Message */}
-      {purchaseSuccess && (
-        <div className="bg-green-50 dark:bg-green-900/20 border-b border-green-200 dark:border-green-800 py-4">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center">
-              <svg className="w-6 h-6 text-green-600 dark:text-green-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div>
-                <p className="text-green-800 dark:text-green-300 font-semibold">Ticket purchased successfully!</p>
-                <p className="text-green-600 dark:text-green-400 text-sm">Redirecting to your tickets...</p>
+      {/* Hero Section with Backdrop */}
+      <div className="relative pt-16">
+        {/* Blurred Background Image */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center blur-2xl opacity-20 dark:opacity-30 scale-110"
+            style={{ backgroundImage: `url(${posterUrl})` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-50/50 via-gray-50/80 to-gray-50 dark:from-netflix-black/50 dark:via-netflix-black/80 dark:to-netflix-black" />
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+            {/* Event Poster */}
+            <div className="flex-shrink-0 mx-auto sm:mx-0">
+              <div className="relative w-48 sm:w-56 md:w-64 rounded-xl overflow-hidden shadow-2xl ring-1 ring-gray-200 dark:ring-white/10">
+                <img
+                  src={posterUrl}
+                  alt={event.name}
+                  className="w-full aspect-[2/3] object-cover"
+                />
+                {/* Optional badge overlay */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3">
+                  <span className="text-xs font-medium text-gray-300">{event.eventType || 'Event'}</span>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
 
-      {/* Error Message */}
-      {error && !purchaseSuccess && (
-        <div className="bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800 py-4">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center">
-              <svg className="w-6 h-6 text-red-600 dark:text-red-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p className="text-red-800 dark:text-red-300">{error}</p>
-            </div>
-          </div>
-        </div>
-      )}
+            {/* Event Info */}
+            <div className="flex-1 text-center sm:text-left">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                {event.name}
+              </h1>
 
-      {/* Event Banner */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 h-80 relative">
-        <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-        <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/80 to-transparent">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">{event.name}</h1>
-            <div className="flex items-center text-white text-lg">
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              {event.venue}
+              {/* Event Metadata */}
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 text-gray-600 dark:text-gray-300 text-sm mb-4">
+                <span>{formatDate(event.startTime)}</span>
+                <span className="text-gray-400 dark:text-gray-600">•</span>
+                <span>{formatTime(event.startTime)}</span>
+                {event.eventType && (
+                  <>
+                    <span className="text-gray-400 dark:text-gray-600">•</span>
+                    <span className="capitalize">{event.eventType}</span>
+                  </>
+                )}
+              </div>
+
+              {/* Venue */}
+              <div className="flex items-center justify-center sm:justify-start gap-2 text-gray-500 dark:text-gray-400 mb-6">
+                <svg className="w-5 h-5 text-cyan-500 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>{event.venue}</span>
+              </div>
+
+              {/* Price Tag */}
+              {lowestPrice !== null && (
+                <div className="mb-6">
+                  <span className="text-gray-500 dark:text-gray-400 text-sm">Starting from </span>
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">₹{lowestPrice}</span>
+                </div>
+              )}
+
+              {/* Book Tickets Button */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button
+                  onClick={() => navigate(`/published-events/${id}/tickets`)}
+                  disabled={!salesActive || !hasAvailableTickets()}
+                  className={`px-8 py-3 rounded-lg font-semibold text-lg transition-all
+                    ${salesActive && hasAvailableTickets()
+                      ? 'bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50'
+                      : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                    }`}
+                >
+                  {!salesActive
+                    ? 'Coming Soon'
+                    : !hasAvailableTickets()
+                      ? 'Sold Out'
+                      : 'Book tickets'}
+                </button>
+              </div>
+
+              {/* Sales Period Info */}
+              {!salesActive && event.salesStartDate && new Date() < new Date(event.salesStartDate) && (
+                <p className="text-yellow-600 dark:text-yellow-400 text-sm mt-3">
+                  Sales start on {formatDate(event.salesStartDate)}
+                </p>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Event Details */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-netflix-dark rounded-lg shadow-md p-6 mb-6 transition-colors duration-300">
-              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">About the Event</h2>
-              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{event.description}</p>
-            </div>
+      {/* About the Event */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="bg-white dark:bg-netflix-dark/50 rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-300">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">About the event</h2>
+          <p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+            {event.description}
+          </p>
+        </div>
+      </div>
 
-            <div className="bg-white dark:bg-netflix-dark rounded-lg shadow-md p-6 transition-colors duration-300">
-              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Event Schedule</h2>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <svg className="w-6 h-6 text-green-600 dark:text-green-400 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Event Starts</h3>
-                    <p className="text-gray-600 dark:text-gray-400">{formatDateTime(event.startTime)}</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <svg className="w-6 h-6 text-red-600 dark:text-red-400 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Event Ends</h3>
-                    <p className="text-gray-600 dark:text-gray-400">{formatDateTime(event.endTime)}</p>
-                  </div>
-                </div>
+      {/* Event Schedule */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="bg-white dark:bg-netflix-dark/50 rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-300">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6">Event Schedule</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-500/20 flex items-center justify-center">
+                <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Starts</p>
+                <p className="text-gray-900 dark:text-white font-semibold">{formatDate(event.startTime)}</p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm">{formatTime(event.startTime)}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-500/20 flex items-center justify-center">
+                <svg className="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Ends</p>
+                <p className="text-gray-900 dark:text-white font-semibold">{formatDate(event.endTime)}</p>
+                <p className="text-gray-600 dark:text-gray-300 text-sm">{formatTime(event.endTime)}</p>
               </div>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Sidebar - Tickets */}
-          <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-netflix-dark rounded-lg shadow-md p-6 sticky top-8 transition-colors duration-300">
-              <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tickets</h2>
-
-              {!salesActive && (
-                <div className="mb-4 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700/50 rounded-lg">
-                  <p className="text-yellow-800 dark:text-yellow-200 text-sm font-medium">
-                    {event.salesStartDate && new Date() < new Date(event.salesStartDate)
-                      ? `Sales start on ${new Date(event.salesStartDate).toLocaleDateString()}`
-                      : 'Ticket sales have ended'}
-                  </p>
-                </div>
-              )}
-
-              <div className="space-y-4">
-                {event.ticketTypes.map((ticket) => {
-                  const isSoldOut = ticket.totalAvailable !== undefined && ticket.totalAvailable <= 0;
-                  const isPurchasing = purchasingTicketType === ticket.id;
-
-                  return (
-                    <div key={ticket.id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-red-500 dark:hover:border-red-500 transition-colors">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{ticket.name}</h3>
-                        <span className="text-2xl font-bold text-red-600 dark:text-red-400">₹{ticket.price}</span>
-                      </div>
-
-                      {ticket.totalAvailable !== undefined && (
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                          {isSoldOut ? (
-                            <span className="text-red-600 dark:text-red-400 font-semibold">Sold Out</span>
-                          ) : (
-                            `${ticket.totalAvailable} tickets available`
-                          )}
-                        </p>
-                      )}
-
-                      <Button
-                        onClick={() => handlePurchase(ticket.id)}
-                        disabled={!salesActive || isSoldOut || isPurchasing || purchaseSuccess}
-                        isLoading={isPurchasing}
-                        className="w-full"
-                      >
-                        {isSoldOut
-                          ? 'Sold Out'
-                          : !salesActive
-                          ? 'Not Available'
-                          : isPurchasing
-                          ? 'Processing...'
-                          : isAuthenticated
-                          ? 'Buy Now'
-                          : 'Login to Buy'}
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {event.salesStartDate && event.salesEndDate && (
-                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Sales Period</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    From: {new Date(event.salesStartDate).toLocaleDateString()}
-                  </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Until: {new Date(event.salesEndDate).toLocaleDateString()}
-                  </p>
-                </div>
-              )}
-
-              {isAuthenticated && (
-                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                  <Link
-                    to="/my-tickets"
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium flex items-center"
-                  >
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
-                    </svg>
-                    View Your Tickets →
-                  </Link>
-                </div>
-              )}
+      {/* Venue Section */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <div className="bg-white dark:bg-netflix-dark/50 rounded-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-300">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Venue</h2>
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 rounded-full bg-cyan-100 dark:bg-cyan-500/20 flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-cyan-600 dark:text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-gray-900 dark:text-white font-semibold text-lg">{event.venue}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">View on map</p>
             </div>
           </div>
         </div>

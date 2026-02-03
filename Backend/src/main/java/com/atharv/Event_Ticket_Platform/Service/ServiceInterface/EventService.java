@@ -5,14 +5,11 @@ import com.atharv.Event_Ticket_Platform.Domain.Entity.Event;
 import com.atharv.Event_Ticket_Platform.Domain.Requests.CreateEventRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.oauth2.jwt.Jwt;
-
-import java.nio.channels.FileChannel;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface EventService {
-    Event createEvent(UUID organiserId, CreateEventRequest eventRequest, Jwt jwt);
+    Event createEvent(UUID organiserId, CreateEventRequest eventRequest);
     Page<Event> listEventForOrganiser(UUID organiser,Pageable pageable);
     Event updateEvent(UUID organiserId, UUID eventId, UpdateEventRequestDto updateEventRequestDto);
     Event getEvent(UUID eventId,UUID organiserId);

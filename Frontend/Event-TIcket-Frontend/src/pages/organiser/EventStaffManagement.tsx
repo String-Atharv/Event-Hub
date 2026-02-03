@@ -283,8 +283,8 @@ export const EventStaffManagement = () => {
                                         </div>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                                             <div>
-                                                <span className="text-gray-500 dark:text-gray-400">Username:</span>
-                                                <p className="font-mono font-medium text-gray-900 dark:text-white">{cred.username}</p>
+                                                <span className="text-gray-500 dark:text-gray-400">Email:</span>
+                                                <p className="font-mono font-medium text-gray-900 dark:text-white">{cred.email}</p>
                                             </div>
                                             <div>
                                                 <span className="text-gray-500 dark:text-gray-400">Password:</span>
@@ -326,7 +326,7 @@ export const EventStaffManagement = () => {
                         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-800">
                             <thead className="bg-gray-50 dark:bg-netflix-gray">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Username</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Staff Account</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Valid Until</th>
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Last Login</th>
@@ -351,8 +351,8 @@ export const EventStaffManagement = () => {
                                         <tr key={staff.id} className={staff.isExpired ? 'bg-gray-50 dark:bg-netflix-gray/20' : 'hover:bg-gray-50 dark:hover:bg-netflix-gray/10'}>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div>
-                                                    <p className="font-mono text-sm font-medium text-gray-900 dark:text-white">{staff.username}</p>
-                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{staff.email}</p>
+                                                    <p className="font-medium text-sm text-gray-900 dark:text-white">{staff.email}</p>
+                                                    <p className="font-mono text-xs text-gray-500 dark:text-gray-400">{staff.username}</p>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">

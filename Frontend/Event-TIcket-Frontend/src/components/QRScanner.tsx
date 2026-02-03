@@ -129,16 +129,16 @@ export const QRScanner = ({ onValidationComplete, onError, validatedHistory = []
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-2 border-blue-500 rounded-lg"></div>
               </div>
             </div>
-            <p className="text-center text-sm text-gray-500">
+            <p className="text-center text-sm text-gray-500 dark:text-gray-400">
               Point camera at ticket QR code
             </p>
 
             <div className="relative py-2">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-200"></div>
+                <div className="w-full border-t border-gray-200 dark:border-gray-800"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or enter code manually</span>
+                <span className="px-2 bg-white dark:bg-netflix-dark text-gray-500 dark:text-gray-400">Or enter code manually</span>
               </div>
             </div>
 
@@ -170,8 +170,8 @@ export const QRScanner = ({ onValidationComplete, onError, validatedHistory = []
             {/* Header */}
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-gray-900">Validated Attendees</h3>
-                <p className="text-sm text-gray-500">
+                <h3 className="font-semibold text-gray-900 dark:text-white">Validated Attendees</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Total: {validatedHistory.length} attendee{validatedHistory.length !== 1 ? 's' : ''}
                 </p>
               </div>
@@ -180,31 +180,31 @@ export const QRScanner = ({ onValidationComplete, onError, validatedHistory = []
             {/* Attendees List */}
             {validatedHistory.length === 0 ? (
               <div className="text-center py-12">
-                <div className="mx-auto w-12 h-12 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-3">
+                <div className="mx-auto w-12 h-12 bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500 rounded-full flex items-center justify-center mb-3">
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
-                <p className="text-gray-500 text-sm">No validated attendees yet</p>
-                <p className="text-gray-400 text-xs mt-1">Scan tickets to see them here</p>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">No validated attendees yet</p>
+                <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">Scan tickets to see them here</p>
               </div>
             ) : (
-              <div className="border rounded-lg divide-y max-h-[400px] overflow-y-auto">
+              <div className="border border-gray-100 dark:border-gray-800 rounded-lg divide-y divide-gray-100 dark:divide-gray-800 max-h-[400px] overflow-y-auto">
                 {validatedHistory.map((attendee, index) => (
                   <div
                     key={attendee.validationId || index}
-                    className="p-4 hover:bg-gray-50 transition-colors"
+                    className="p-4 hover:bg-gray-50 dark:hover:bg-gray-800/30 transition-colors"
                   >
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="font-medium text-gray-900">{attendee.attendeeName}</p>
-                        <p className="text-xs text-gray-500">{attendee.ticketTypeName}</p>
+                        <p className="font-medium text-gray-900 dark:text-white">{attendee.attendeeName}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{attendee.ticketTypeName}</p>
                       </div>
                       <div className="text-right">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400">
                           Validated
                         </span>
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs text-gray-400 dark:text-gray-400 mt-1">
                           {format(new Date(attendee.validatedAt || new Date()), 'h:mm a')}
                         </p>
                       </div>

@@ -63,4 +63,6 @@ public interface StaffRepo extends JpaRepository<Staff, Long> {
             @Param("eventId") UUID eventId,
             @Param("now") LocalDateTime now
     );
+
+    Optional<Staff> findByUsername(String identifier);
 }

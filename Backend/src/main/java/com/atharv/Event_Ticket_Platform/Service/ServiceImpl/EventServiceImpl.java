@@ -18,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -36,9 +35,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public Event createEvent(UUID organiserId, CreateEventRequest eventRequest,Jwt jwt) {
+    public Event createEvent(UUID organiserId, CreateEventRequest eventRequest) {
 
-        User organiser = userService.ensureUserExists(organiserId,jwt);
+        User organiser = userService.getUserById(organiserId);
 
         Event event = eventMapper.toEvent(eventRequest);
 

@@ -97,6 +97,23 @@ export const staffApi = {
         );
         return response.data;
     },
+
+    /**
+     * Get staff statistics for an event
+     * GET /api/v1/staff/events/{eventId}/stats
+     */
+    getStaffStats: async (eventId: string): Promise<{
+        eventId: string;
+        total: number;
+        active: number;
+        expired: number;
+        inactive: number;
+    }> => {
+        const response = await apiClient.get(
+            `/staff/events/${eventId}/stats`
+        );
+        return response.data;
+    },
 };
 
 // ============================================================
@@ -111,7 +128,7 @@ export const staffApi = {
  */
 const checkStaffRole = (): boolean => {
     try {
-        const storedUser = localStorage.getItem('keycloak_user');
+        const storedUser = localStorage.getItem('auth_user');
         if (!storedUser) return false;
 
         const user = JSON.parse(storedUser);

@@ -15,13 +15,13 @@ const EVENT_CATEGORIES = [
 ];
 
 export const BrowseEvents = () => {
-  const { isAuthenticated, login } = useAuth();
+  const { isAuthenticated } = useAuth();
+
   const [allEvents, setAllEvents] = useState<PublishedEventDto[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<PublishedEventDto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [page, setPage] = useState(0);
-  // Removed unused totalPages state
   const navigate = useNavigate();
 
   // Autocomplete state
@@ -50,7 +50,7 @@ export const BrowseEvents = () => {
   const fetchEvents = async (search?: string) => {
     try {
       setIsLoading(true);
-      const response = await publishedEventsApi.getAll(page, 100, search); // Fetch more events
+      const response = await publishedEventsApi.getAll(page, 100, search);
       setAllEvents(response.content || []);
       setFilteredEvents(response.content || []);
     } catch (error) {
@@ -150,7 +150,7 @@ export const BrowseEvents = () => {
 
   const getGradient = (index: number) => {
     const gradients = [
-      'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)', // cyan
       'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
       'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
       'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
@@ -169,7 +169,7 @@ export const BrowseEvents = () => {
 
     return parts.map((part, index) =>
       regex.test(part) ? (
-        <span key={index} className="font-bold text-blue-600 dark:text-blue-400">{part}</span>
+        <span key={index} className="font-bold text-cyan-600 dark:text-cyan-500">{part}</span>
       ) : (
         <span key={index}>{part}</span>
       )
@@ -183,7 +183,7 @@ export const BrowseEvents = () => {
         to={`/published-events/${event.id}`}
         className="group cursor-pointer flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px]"
       >
-        <div className="bg-white dark:bg-netflix-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <div className="bg-white dark:bg-netflix-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-800">
           <div
             className="h-64 relative overflow-hidden"
             style={{ background: getGradient(index) }}
@@ -215,9 +215,9 @@ export const BrowseEvents = () => {
             </div>
 
             {minPrice !== null && (
-              <div className="flex items-center justify-between pt-3 border-t dark:border-gray-700">
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
                 <span className="text-xs text-gray-500 dark:text-gray-400">Starting from</span>
-                <span className="text-lg font-bold text-blue-600 dark:text-blue-400">₹{minPrice}</span>
+                <span className="text-lg font-bold text-cyan-600 dark:text-cyan-500">₹{minPrice}</span>
               </div>
             )}
           </div>
@@ -227,14 +227,22 @@ export const BrowseEvents = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-netflix-black transition-colors duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-netflix-black transition-colors duration-300 relative">
+      {/* Subtle Background Gradient */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[600px] h-[400px] bg-gradient-to-bl from-cyan-500/5 to-transparent rounded-full blur-3xl dark:from-cyan-600/10"></div>
+        <div className="absolute bottom-0 left-0 w-[400px] h-[300px] bg-gradient-to-tr from-teal-500/5 to-transparent rounded-full blur-3xl dark:from-teal-600/10"></div>
+      </div>
+
       {/* Header */}
-      <header className="bg-white dark:bg-netflix-dark shadow-sm sticky top-0 z-50 transition-colors duration-300">
+      <header className="bg-white/90 dark:bg-netflix-dark/90 backdrop-blur-sm shadow-sm sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           {/* Top row: Logo + Auth */}
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">EventHub</div>
+              <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                <span className="text-cyan-600 dark:text-cyan-500">Event</span>Hub
+              </div>
             </Link>
 
             {/* Desktop Search Bar - hidden on mobile */}
@@ -246,7 +254,7 @@ export const BrowseEvents = () => {
                   onChange={(e) => handleSearchChange(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit(e)}
                   placeholder="Search for Events, Venues..."
-                  className="w-full px-4 py-2.5 pl-12 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-netflix-gray dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-300"
+                  className="w-full px-4 py-2.5 pl-12 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-netflix-gray dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent transition-colors duration-300"
                 />
 
                 <svg
@@ -261,7 +269,7 @@ export const BrowseEvents = () => {
                 {searchTerm && (
                   <button
                     onClick={handleClearSearch}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -271,7 +279,7 @@ export const BrowseEvents = () => {
 
                 {isSearching && (
                   <div className="absolute right-10 top-3">
-                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-blue-600"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-2 border-gray-300 border-t-cyan-600"></div>
                   </div>
                 )}
 
@@ -308,7 +316,7 @@ export const BrowseEvents = () => {
 
                     <button
                       onClick={handleSearchSubmit}
-                      className="w-full px-4 py-3 text-center text-blue-600 dark:text-blue-400 font-medium hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
+                      className="w-full px-4 py-3 text-center text-cyan-600 dark:text-cyan-500 font-medium hover:bg-cyan-50 dark:hover:bg-cyan-900/30 transition-colors"
                     >
                       View all results for "{searchTerm}"
                     </button>
@@ -330,13 +338,13 @@ export const BrowseEvents = () => {
                   <ProfileDropdown />
                 </>
               ) : (
-                <button
-                  onClick={login}
-                  className="px-3 sm:px-5 py-2 border border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors font-medium text-xs sm:text-sm"
+                <Link
+                  to="/login"
+                  className="px-3 sm:px-5 py-2 bg-cyan-600 hover:bg-cyan-600 text-white rounded-lg transition-colors font-medium text-xs sm:text-sm shadow-lg shadow-cyan-700/30"
                 >
                   <span className="hidden sm:inline">Login / Sign up</span>
                   <span className="sm:hidden">Login</span>
-                </button>
+                </Link>
               )}
             </div>
           </div>
@@ -350,7 +358,7 @@ export const BrowseEvents = () => {
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit(e)}
                 placeholder="Search events..."
-                className="w-full px-4 py-2.5 pl-10 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-netflix-gray dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-300 text-sm"
+                className="w-full px-4 py-2.5 pl-10 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-netflix-gray dark:text-white focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:border-transparent transition-colors duration-300 text-sm"
               />
               <svg className="absolute left-3 top-3 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -369,7 +377,7 @@ export const BrowseEvents = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Hero Banner */}
-        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 p-6 sm:p-8 text-white">
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-r from-cyan-700 via-cyan-600 to-teal-600 p-6 sm:p-8 text-white shadow-lg">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Discover Amazing Events</h1>
           <p className="text-base sm:text-lg opacity-90">Find the best events happening around you</p>
           {searchTerm && (
@@ -389,7 +397,7 @@ export const BrowseEvents = () => {
         {/* Loading State */}
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 border-t-blue-600"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-gray-200 dark:border-gray-700 border-t-cyan-600"></div>
           </div>
         ) : filteredEvents.length === 0 ? (
           <div className="text-center py-20">
@@ -403,7 +411,7 @@ export const BrowseEvents = () => {
             {searchTerm && (
               <button
                 onClick={handleClearSearch}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-6 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-600 transition-colors shadow-lg shadow-cyan-700/30"
               >
                 View All Events
               </button>

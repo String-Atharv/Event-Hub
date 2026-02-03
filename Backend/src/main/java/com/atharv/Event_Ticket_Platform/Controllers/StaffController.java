@@ -3,8 +3,8 @@ package com.atharv.Event_Ticket_Platform.Controllers;
 import com.atharv.Event_Ticket_Platform.Domain.DTO.StaffDtos.*;
 import com.atharv.Event_Ticket_Platform.Domain.Entity.Staff;
 import com.atharv.Event_Ticket_Platform.Repository.StaffRepo;
-import com.atharv.Event_Ticket_Platform.Service.ServiceImpl.KeycloakUserService;
-import com.atharv.Event_Ticket_Platform.util.UserFromJwt;
+import com.atharv.Event_Ticket_Platform.Security.UserPrincipal;
+import com.atharv.Event_Ticket_Platform.Service.ServiceImpl.StaffIamService;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -25,9 +24,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/staff")
 @RequiredArgsConstructor
 @Slf4j @Builder
-public class KeycloakStaffController {
+public class StaffController {
 
-    private final KeycloakUserService keycloakUserService;
+    private final StaffIamService keycloakUserService;
     private final StaffRepo staffRepo;
 
     /**
@@ -37,11 +36,11 @@ public class KeycloakStaffController {
     @PostMapping("/events/{eventId}/generate")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<GenerateStaffResponseDto> generateStaffAccounts(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal organiser,
             @PathVariable UUID eventId,
             @RequestBody GenerateStaffRequestDto request
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = organiser.getUserId();
         log.info("Organiser {} requesting {} staff accounts for event {} with {} hours validity",
                 organiserId, request.getCount(), eventId, request.getValidityHours());
 
@@ -81,11 +80,11 @@ public class KeycloakStaffController {
     @GetMapping("/events/{eventId}")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Page<StaffCredentialsDto>> getStaffByEvent(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal organiser,
             @PathVariable UUID eventId,
             Pageable pageable
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = organiser.getUserId();
         log.info("Organiser {} fetching staff for event {}", organiserId, eventId);
 
         try {
@@ -123,11 +122,11 @@ public class KeycloakStaffController {
     @GetMapping("/events/{eventId}/active")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Page<StaffCredentialsDto>> getActiveStaffByEvent(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal organiser,
             @PathVariable UUID eventId,
             Pageable pageable
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = organiser.getUserId();
         log.info("Organiser {} fetching active staff for event {}", organiserId, eventId);
 
         try {
@@ -165,11 +164,11 @@ public class KeycloakStaffController {
     @DeleteMapping("/events/{eventId}/users/{userId}")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, String>> deleteStaffUser(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal organiser,
             @PathVariable UUID eventId,
             @PathVariable String userId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = organiser.getUserId();
         log.info("Organiser {} deleting staff user {} from event {}",
                 organiserId, userId, eventId);
 
@@ -197,11 +196,11 @@ public class KeycloakStaffController {
     @PostMapping("/events/{eventId}/users/{userId}/reset-password")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, String>> resetStaffPassword(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal organiser,
             @PathVariable UUID eventId,
             @PathVariable String userId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = organiser.getUserId();
         log.info("Organiser {} resetting password for staff user {} in event {}",
                 organiserId, userId, eventId);
 
@@ -231,12 +230,12 @@ public class KeycloakStaffController {
     @PostMapping("/events/{eventId}/users/{userId}/extend-validity")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, Object>> extendValidity(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal organiser,
             @PathVariable UUID eventId,
             @PathVariable String userId,
             @RequestParam int hours
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = organiser.getUserId();
         log.info("Organiser {} extending validity for staff {} by {} hours",
                 organiserId, userId, hours);
 
@@ -268,10 +267,10 @@ public class KeycloakStaffController {
     @GetMapping("/events/{eventId}/stats")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, Object>> getStaffStats(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal organiser,
             @PathVariable UUID eventId
     ) {
-        UUID organiserId = UserFromJwt.parseUserId(jwt);
+        UUID organiserId = organiser.getUserId();
 
         try {
             List<Staff> allStaff = staffRepo.findByCreatedByOrganiserIdAndEventId(

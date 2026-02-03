@@ -3,9 +3,9 @@ package com.atharv.Event_Ticket_Platform.Controllers;
 import com.atharv.Event_Ticket_Platform.Domain.DTO.TicketValidationDtos.*;
 import com.atharv.Event_Ticket_Platform.Domain.Entity.Ticket;
 import com.atharv.Event_Ticket_Platform.Domain.Entity.TicketValidation;
+import com.atharv.Event_Ticket_Platform.Security.UserPrincipal;
 import com.atharv.Event_Ticket_Platform.Service.ServiceImpl.StaffTicketValidationService;
 import com.atharv.Event_Ticket_Platform.Service.ServiceImpl.ValidationStatsService;
-import com.atharv.Event_Ticket_Platform.util.UserFromJwt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -44,10 +43,10 @@ public class StaffValidationController {
      */
     @PostMapping("/scan")
     public ResponseEntity<?> validateTicketByQR(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody Map<String, String> request
     ) {
-        UUID staffUserId = UserFromJwt.parseUserId(jwt);
+        UUID staffUserId = userPrincipal.getUserId();
         String qrCode = request.get("qrCode");
 
         log.info("Staff {} scanning QR code: {}", staffUserId, qrCode);
@@ -75,7 +74,7 @@ public class StaffValidationController {
                     .attendeeEmail(ticket.getPurchaser().getEmail())
                     .eventName(ticket.getTicketType().getEvent().getName())
                     .validatedAt(validation.getValidatedAt())
-                    .validatedBy(jwt.getClaimAsString("preferred_username"))
+                    .validatedBy(userPrincipal.getUsername())
                     .message("✅ Valid ticket! Entry granted.")
                     .build();
 
@@ -111,10 +110,10 @@ public class StaffValidationController {
      */
     @PostMapping("/manual")
     public ResponseEntity<?> validateTicketManually(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestBody Map<String, String> request
     ) {
-        UUID staffUserId = UserFromJwt.parseUserId(jwt);
+        UUID staffUserId = userPrincipal.getUserId();
         String qrCode = request.get("qrCode");
 
         log.info("Staff {} attempting manual validation with QR code: {}", staffUserId, qrCode);
@@ -142,7 +141,7 @@ public class StaffValidationController {
                     .attendeeEmail(ticket.getPurchaser().getEmail())
                     .eventName(ticket.getTicketType().getEvent().getName())
                     .validatedAt(validation.getValidatedAt())
-                    .validatedBy(jwt.getClaimAsString("preferred_username"))
+                    .validatedBy(userPrincipal.getUsername())
                     .message("✅ Ticket validated manually. Entry granted.")
                     .build();
 
@@ -171,10 +170,10 @@ public class StaffValidationController {
      */
     @GetMapping("/search")
     public ResponseEntity<?> searchTicket(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             @RequestParam String qrCode
     ) {
-        UUID staffUserId = UserFromJwt.parseUserId(jwt);
+        UUID staffUserId = userPrincipal.getUserId();
 
         if (qrCode == null || qrCode.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(Map.of(
@@ -212,8 +211,8 @@ public class StaffValidationController {
      * GET /api/v1/staff/validation/stats
      */
     @GetMapping("/stats")
-    public ResponseEntity<?> getMyValidationStats(@AuthenticationPrincipal Jwt jwt) {
-        UUID staffUserId = UserFromJwt.parseUserId(jwt);
+    public ResponseEntity<?> getMyValidationStats(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID staffUserId = userPrincipal.getUserId();
 
         try {
             var stats = statsService.getStaffPersonalStats(staffUserId);
@@ -230,10 +229,10 @@ public class StaffValidationController {
      */
     @GetMapping("/my-history")
     public ResponseEntity<?> getMyValidationHistory(
-            @AuthenticationPrincipal Jwt jwt,
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
             Pageable pageable
     ) {
-        UUID staffUserId = UserFromJwt.parseUserId(jwt);
+        UUID staffUserId = userPrincipal.getUserId();
 
         try {
             Page<ValidationHistoryDto> history = statsService.getStaffValidationHistory(
@@ -252,8 +251,8 @@ public class StaffValidationController {
      * GET /api/v1/staff/validation/stats/by-ticket-type
      */
     @GetMapping("/stats/by-ticket-type")
-    public ResponseEntity<?> getMyStatsByTicketType(@AuthenticationPrincipal Jwt jwt) {
-        UUID staffUserId = UserFromJwt.parseUserId(jwt);
+    public ResponseEntity<?> getMyStatsByTicketType(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID staffUserId = userPrincipal.getUserId();
 
         try {
             var stats = statsService.getStaffValidationsByTicketType(staffUserId);
@@ -269,8 +268,8 @@ public class StaffValidationController {
      * GET /api/v1/staff/validation/my-credentials
      */
     @GetMapping("/my-credentials")
-    public ResponseEntity<?> getMyCredentials(@AuthenticationPrincipal Jwt jwt) {
-        UUID staffUserId = UserFromJwt.parseUserId(jwt);
+    public ResponseEntity<?> getMyCredentials(@AuthenticationPrincipal UserPrincipal userPrincipal) {
+        UUID staffUserId = userPrincipal.getUserId();
 
         try {
             var credentials = statsService.getStaffCredentialInfo(staffUserId);

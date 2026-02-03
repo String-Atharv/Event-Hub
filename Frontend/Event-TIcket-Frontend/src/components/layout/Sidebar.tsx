@@ -1,7 +1,6 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { isOrganiser, isStaff } from '@/utils/roles';
-import { redirectToKeycloakLogin } from '@/services/keycloakService';
 
 interface SidebarProps {
   isOpen?: boolean;
@@ -10,7 +9,8 @@ interface SidebarProps {
 
 export const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
   const location = useLocation();
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const userIsStaff = isStaff(user);
   const userIsOrganiser = isOrganiser(user);
@@ -35,19 +35,12 @@ export const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
 
   /**
    * Handle Staff Portal access
-   * Clears session and redirects to Keycloak login page
+   * Logs out and redirects to login for staff credentials
    */
-  const handleStaffPortalAccess = async () => {
-    console.log('[Sidebar] Staff Portal access clicked - clearing session');
-
-    // Clear current session
-    localStorage.removeItem('keycloak_token');
-    localStorage.removeItem('keycloak_user');
-    localStorage.removeItem('kc_state');
-    localStorage.removeItem('kc_code_verifier');
-
-    // Redirect to Keycloak login (force login screen)
-    await redirectToKeycloakLogin({ prompt: 'login' });
+  const handleStaffPortalAccess = () => {
+    console.log('[Sidebar] Staff Portal access clicked - logging out');
+    logout();
+    navigate('/login');
   };
 
   const handleLinkClick = () => {
