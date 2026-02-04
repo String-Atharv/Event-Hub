@@ -16,7 +16,7 @@ services:
 
   # Spring Boot Backend
   backend:
-    build: ./backend
+    build: .
     restart: always
     depends_on:
       - db
