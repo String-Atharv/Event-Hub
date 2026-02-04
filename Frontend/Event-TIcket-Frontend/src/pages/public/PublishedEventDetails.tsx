@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { publishedEventsApi, PublishedEventDto } from '@/api/endpoints/publishedEvents';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { getEventImage } from '@/utils/eventImages';
 
 export const PublishedEventDetails = () => {
   const { id } = useParams<{ id: string }>();
@@ -95,8 +96,8 @@ export const PublishedEventDetails = () => {
   const salesActive = isSalesActive(event);
   const lowestPrice = getLowestPrice();
 
-  // Placeholder image if no imageUrl
-  const posterUrl = event.imageUrl || 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=600&fit=crop';
+  // Get consistent image based on event ID and type
+  const posterUrl = getEventImage(event.id, event.eventType);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-netflix-black transition-colors duration-300">
@@ -136,7 +137,7 @@ export const PublishedEventDetails = () => {
 
         {/* Hero Content */}
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
+          <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-center sm:items-start">
             {/* Event Poster */}
             <div className="flex-shrink-0 mx-auto sm:mx-0">
               <div className="relative w-48 sm:w-56 md:w-64 rounded-xl overflow-hidden shadow-2xl ring-1 ring-gray-200 dark:ring-white/10">
@@ -153,7 +154,7 @@ export const PublishedEventDetails = () => {
             </div>
 
             {/* Event Info */}
-            <div className="flex-1 text-center sm:text-left">
+            <div className="flex-1 w-full text-center sm:text-left">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
                 {event.name}
               </h1>
@@ -182,18 +183,18 @@ export const PublishedEventDetails = () => {
 
               {/* Price Tag */}
               {lowestPrice !== null && (
-                <div className="mb-6">
+                <div className="mb-6 text-center sm:text-left">
                   <span className="text-gray-500 dark:text-gray-400 text-sm">Starting from </span>
                   <span className="text-2xl font-bold text-gray-900 dark:text-white">₹{lowestPrice}</span>
                 </div>
               )}
 
               {/* Book Tickets Button */}
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 items-center sm:items-start">
                 <button
                   onClick={() => navigate(`/published-events/${id}/tickets`)}
                   disabled={!salesActive || !hasAvailableTickets()}
-                  className={`px-8 py-3 rounded-lg font-semibold text-lg transition-all
+                  className={`px-8 py-3 rounded-lg font-semibold text-lg transition-all w-full sm:w-auto
                     ${salesActive && hasAvailableTickets()
                       ? 'bg-cyan-500 hover:bg-cyan-600 text-white shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50'
                       : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'

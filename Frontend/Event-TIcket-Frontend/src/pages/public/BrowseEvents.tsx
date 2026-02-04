@@ -4,6 +4,7 @@ import { publishedEventsApi, PublishedEventDto } from '@/api/endpoints/published
 import { ProfileDropdown } from '@/components/common/ProfileDropdown';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { useAuth } from '@/hooks/useAuth';
+import { getEventImage } from '@/utils/eventImages';
 
 // Event type categories
 const EVENT_CATEGORIES = [
@@ -148,18 +149,6 @@ export const BrowseEvents = () => {
     return Math.min(...prices);
   };
 
-  const getGradient = (index: number) => {
-    const gradients = [
-      'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)', // cyan
-      'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      'linear-gradient(135deg, #30cfd0 0%, #330867 100%)',
-    ];
-    return gradients[index % gradients.length];
-  };
-
   // Highlight matching text in suggestions
   const highlightMatch = (text: string, query: string) => {
     if (!query.trim()) return text;
@@ -176,20 +165,26 @@ export const BrowseEvents = () => {
     );
   };
 
-  const EventCard = ({ event, index }: { event: PublishedEventDto; index: number }) => {
+  const EventCard = ({ event }: { event: PublishedEventDto }) => {
     const minPrice = getMinPrice(event);
+    const eventImage = getEventImage(event.id, event.eventType);
     return (
       <Link
         to={`/published-events/${event.id}`}
         className="group cursor-pointer flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px]"
       >
         <div className="bg-white dark:bg-netflix-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-800">
-          <div
-            className="h-64 relative overflow-hidden"
-            style={{ background: getGradient(index) }}
-          >
+          <div className="h-64 relative overflow-hidden">
+            <img
+              src={eventImage}
+              alt={event.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
             <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all"></div>
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+              <span className="text-xs text-cyan-400 font-medium uppercase tracking-wider">
+                {event.eventType || 'Event'}
+              </span>
               <h3 className="text-white font-bold text-lg line-clamp-2 mb-1">
                 {event.name}
               </h3>
@@ -286,17 +281,18 @@ export const BrowseEvents = () => {
                 {/* Autocomplete Suggestions */}
                 {showSuggestions && suggestions.length > 0 && (
                   <div className="absolute top-full mt-2 w-full bg-white dark:bg-netflix-dark rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto z-50">
-                    {suggestions.map((event, index) => (
+                    {suggestions.map((event) => (
                       <button
                         key={event.id}
                         onClick={() => handleSuggestionClick(event)}
                         className="w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 border-b border-gray-100 dark:border-gray-800 last:border-b-0 text-left transition-colors"
                       >
                         <div className="flex items-start space-x-3">
-                          <div
-                            className="w-12 h-12 rounded flex-shrink-0"
-                            style={{ background: getGradient(index) }}
-                          ></div>
+                          <img
+                            src={getEventImage(event.id, event.eventType)}
+                            alt={event.name}
+                            className="w-12 h-12 rounded object-cover flex-shrink-0"
+                          />
 
                           <div className="flex-1 min-w-0">
                             <h3 className="font-semibold text-gray-900 dark:text-white truncate">
@@ -377,21 +373,40 @@ export const BrowseEvents = () => {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Hero Banner */}
-        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl overflow-hidden bg-gradient-to-r from-cyan-700 via-cyan-600 to-teal-600 p-6 sm:p-8 text-white shadow-lg">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">Discover Amazing Events</h1>
-          <p className="text-base sm:text-lg opacity-90">Find the best events happening around you</p>
-          {searchTerm && (
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="text-sm opacity-90">Showing results for:</span>
-              <span className="font-semibold bg-white/20 px-3 py-1 rounded-full text-sm">{searchTerm}</span>
-              <button
-                onClick={handleClearSearch}
-                className="text-sm underline hover:no-underline"
-              >
-                Clear
-              </button>
-            </div>
-          )}
+        <div className="mb-6 sm:mb-8 rounded-xl sm:rounded-2xl overflow-hidden relative">
+          {/* Pure Glassmorphism Background - minimal gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-teal-500/5 dark:from-cyan-400/10 dark:to-teal-400/10"></div>
+          <div className="absolute inset-0 backdrop-blur-2xl bg-white/50 dark:bg-gray-800/50"></div>
+
+          {/* Very subtle accent glow - just a hint of color */}
+          <div className="absolute top-0 left-1/4 w-32 h-16 bg-cyan-400/10 dark:bg-cyan-400/15 rounded-full blur-3xl"></div>
+
+          {/* Glass border effect */}
+          <div className="absolute inset-0 rounded-xl sm:rounded-2xl ring-1 ring-gray-200/50 dark:ring-white/10 shadow-lg shadow-gray-200/20 dark:shadow-black/20"></div>
+
+          {/* Content */}
+          <div className="relative p-6 sm:p-8">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 text-gray-800 dark:text-white">
+              <span className="bg-gradient-to-r from-cyan-600 to-teal-600 dark:from-cyan-400 dark:to-teal-400 bg-clip-text text-transparent">Discover</span> Amazing Events
+            </h1>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
+              Find the best events happening around you
+            </p>
+            {searchTerm && (
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="text-sm text-gray-500 dark:text-gray-400">Showing results for:</span>
+                <span className="font-semibold bg-white/60 dark:bg-white/10 text-gray-800 dark:text-white px-3 py-1 rounded-full text-sm border border-gray-200/50 dark:border-white/20 backdrop-blur-sm">
+                  {searchTerm}
+                </span>
+                <button
+                  onClick={handleClearSearch}
+                  className="text-sm text-cyan-600 dark:text-cyan-400 hover:underline"
+                >
+                  Clear
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Loading State */}
@@ -440,8 +455,8 @@ export const BrowseEvents = () => {
                   {/* Horizontal Scrollable Container */}
                   <div className="overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
                     <div className="flex space-x-3 sm:space-x-4" style={{ minWidth: 'min-content' }}>
-                      {categoryEvents.map((event, index) => (
-                        <EventCard key={event.id} event={event} index={index} />
+                      {categoryEvents.map((event) => (
+                        <EventCard key={event.id} event={event} />
                       ))}
                     </div>
                   </div>

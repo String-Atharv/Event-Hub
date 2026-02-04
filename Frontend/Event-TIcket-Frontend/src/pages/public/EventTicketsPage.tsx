@@ -4,6 +4,7 @@ import { publishedEventsApi, PublishedEventDto } from '@/api/endpoints/published
 import { ticketsApi } from '@/api/endpoints/tickets';
 import { useAuth } from '@/hooks/useAuth';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { getEventImage } from '@/utils/eventImages';
 
 export const EventTicketsPage = () => {
     const { id } = useParams<{ id: string }>();
@@ -111,7 +112,7 @@ export const EventTicketsPage = () => {
     if (!event) return null;
 
     const salesActive = isSalesActive(event);
-    const posterUrl = event.imageUrl || 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=600&fit=crop';
+    const posterUrl = getEventImage(event.id, event.eventType);
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-netflix-black transition-colors duration-300">
