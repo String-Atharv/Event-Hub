@@ -2,23 +2,18 @@ FROM eclipse-temurin:21-jdk-alpine
 
 WORKDIR /app
 
-# Copy Maven wrapper and config
 COPY pom.xml .
 COPY .mvn .mvn
 COPY mvnw .
 RUN chmod +x mvnw
-
-# Download dependencies (cached layer)
 RUN ./mvnw dependency:go-offline
 
-# Copy source code
 COPY src src
-
-# Build the application
 RUN ./mvnw clean package -DskipTests
 
-# Expose port
+# Rename the JAR to a fixed name
+RUN mv target/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the JAR
-ENTRYPOINT ["java", "-jar", "target/*.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
