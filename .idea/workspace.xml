@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c824a420-aaab-46e7-b58d-a4a8bec56ede" name="Changes" comment="29 dec commit - where claude made successdull changes and create event was working...." />
+    <list default="true" id="c824a420-aaab-46e7-b58d-a4a8bec56ede" name="Changes" comment="29 dec commit - where claude made successdull changes and create event was working....">
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/resources/application-prod.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/docker-compose.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
