@@ -18,7 +18,8 @@ public class CorsConfig {
         // Allow your frontend origin
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
-                "http://localhost:3000"  // Add other ports if needed
+                "http://localhost:3000"
+                        ,"https://d1n3aocu9m7nw9.cloudfront.net"// Add other ports if needed
         ));
 
         // IMPORTANT: Allow ALL HTTP methods including OPTIONS, PATCH, etc.
