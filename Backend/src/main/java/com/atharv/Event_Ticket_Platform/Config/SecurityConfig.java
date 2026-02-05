@@ -54,7 +54,7 @@ public class SecurityConfig {
 
                         // Public endpoints
                         .requestMatchers(
-                                "/auth/**",
+                                "api/v1/auth/**",
                                 "/api/events",
                                 "/api/events/{eventId}",
                                 "/api/events/{eventId}/ticket-types",
