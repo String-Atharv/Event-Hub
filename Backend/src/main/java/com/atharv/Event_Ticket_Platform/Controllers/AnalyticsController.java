@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
+
 /**
  * 📊 Analytics Controller
  * Provides comprehensive analytics endpoints for organizers

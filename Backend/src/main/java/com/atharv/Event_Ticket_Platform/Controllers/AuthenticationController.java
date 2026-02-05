@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * Handles user authentication (login) and registration
  */
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
