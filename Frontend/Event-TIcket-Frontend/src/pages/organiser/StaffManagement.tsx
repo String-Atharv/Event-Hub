@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { eventsApi, ListEventResponseDto } from '@/api/endpoints/events';
 import { Card } from '@/components/common/Card';
-import { Button } from '@/components/common/Button';
 import { format } from 'date-fns';
 
 export const StaffManagement = () => {
@@ -41,7 +40,7 @@ export const StaffManagement = () => {
             DRAFT: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
             PUBLISHED: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
             CANCELLED: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-            COMPLETED: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+            COMPLETED: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-400',
         };
         return (
             <span className={`px-2 py-1 text-xs font-medium rounded-full ${statusStyles[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'}`}>
@@ -63,7 +62,7 @@ export const StaffManagement = () => {
 
             {isLoading ? (
                 <div className="flex items-center justify-center py-12">
-                    <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-200 dark:border-gray-700 border-t-blue-600"></div>
+                    <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-200 dark:border-gray-700 border-t-cyan-600"></div>
                 </div>
             ) : events.length === 0 ? (
                 <Card className="p-8 text-center">
@@ -74,9 +73,12 @@ export const StaffManagement = () => {
                         <p className="text-lg font-medium text-gray-900 dark:text-white">No events found</p>
                         <p className="text-sm text-gray-600 dark:text-gray-400">Create an event first to manage staff</p>
                     </div>
-                    <Button variant="primary" onClick={() => navigate('/events/create')}>
+                    <button
+                        className="px-5 py-2.5 rounded-xl font-medium text-cyan-400 bg-cyan-500/10 backdrop-blur-md border border-cyan-400/30 hover:border-cyan-400/60 hover:bg-cyan-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20"
+                        onClick={() => navigate('/events/create')}
+                    >
                         Create Event
-                    </Button>
+                    </button>
                 </Card>
             ) : (
                 <div className="grid gap-4">
@@ -102,16 +104,15 @@ export const StaffManagement = () => {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Button
-                                        variant="primary"
-                                        size="sm"
+                                    <button
+                                        className="px-4 py-2 rounded-xl font-medium text-emerald-400 bg-emerald-500/10 backdrop-blur-md border border-emerald-400/30 hover:border-emerald-400/60 hover:bg-emerald-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/20 text-sm"
                                         onClick={(e) => {
                                             e.stopPropagation();
                                             navigate(`/events/${event.id}/staff`);
                                         }}
                                     >
                                         Manage Staff
-                                    </Button>
+                                    </button>
                                 </div>
                             </div>
                         </Card>
@@ -126,22 +127,20 @@ export const StaffManagement = () => {
                         Page {page + 1} of {totalPages}
                     </p>
                     <div className="flex gap-2">
-                        <Button
-                            variant="outline"
-                            size="sm"
+                        <button
+                            className="px-4 py-2 rounded-xl font-medium text-gray-400 bg-white/5 backdrop-blur-md border border-gray-400/30 hover:border-gray-400/60 hover:bg-white/10 transition-all duration-300 disabled:opacity-50 text-sm"
                             onClick={() => setPage((p) => Math.max(0, p - 1))}
                             disabled={page === 0}
                         >
                             Previous
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="sm"
+                        </button>
+                        <button
+                            className="px-4 py-2 rounded-xl font-medium text-gray-400 bg-white/5 backdrop-blur-md border border-gray-400/30 hover:border-gray-400/60 hover:bg-white/10 transition-all duration-300 disabled:opacity-50 text-sm"
                             onClick={() => setPage((p) => p + 1)}
                             disabled={page >= totalPages - 1}
                         >
                             Next
-                        </Button>
+                        </button>
                     </div>
                 </div>
             )}

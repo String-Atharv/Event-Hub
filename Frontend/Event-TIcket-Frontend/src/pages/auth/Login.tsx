@@ -55,7 +55,9 @@ export const Login = () => {
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
                 {/* Logo */}
                 <Link to="/" className="flex justify-center">
-                    <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">EventHub</span>
+                    <div className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                        <span className="text-cyan-600 dark:text-cyan-500">Event</span>Hub
+                    </div>
                 </Link>
                 <h2 className="mt-6 text-center text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
                     {isStaffLogin ? 'Staff Portal Login' : 'Sign in to your account'}
@@ -119,7 +121,7 @@ export const Login = () => {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-netflix-gray dark:text-white transition-colors duration-300"
+                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent dark:bg-netflix-gray dark:text-white transition-colors duration-300"
                                     placeholder={isStaffLogin ? "staff_username" : "you@example.com"}
                                 />
                             </div>
@@ -144,7 +146,7 @@ export const Login = () => {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-netflix-gray dark:text-white transition-colors duration-300"
+                                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent dark:bg-netflix-gray dark:text-white transition-colors duration-300"
                                     placeholder="••••••••"
                                 />
                             </div>
@@ -155,7 +157,7 @@ export const Login = () => {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className={`w-full flex justify-center py-4 px-4 border border-transparent rounded-lg shadow-sm text-xl font-bold text-white ${isStaffLogin ? 'bg-purple-600 hover:bg-purple-700' : 'bg-blue-600 hover:bg-blue-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 ${isStaffLogin ? 'focus:ring-purple-500' : 'focus:ring-blue-500'} disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300`}
+                                className={`w-full flex justify-center py-4 px-4 border border-transparent rounded-lg shadow-sm text-xl font-bold text-white ${isStaffLogin ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-600 hover:to-teal-700'} focus:outline-none focus:ring-2 focus:ring-offset-2 ${isStaffLogin ? 'focus:ring-purple-500' : 'focus:ring-cyan-500'} disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300`}
                             >
                                 {isLoading ? (
                                     <div className="flex items-center">
@@ -199,7 +201,7 @@ export const Login = () => {
                             <div className="mt-6">
                                 <Link
                                     to="/register"
-                                    className="w-full flex justify-center py-4 px-4 border-2 border-blue-600 dark:border-blue-400 rounded-lg shadow-sm text-xl font-bold text-blue-600 dark:text-blue-400 bg-transparent hover:bg-blue-50 dark:hover:bg-blue-900/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300"
+                                    className="w-full flex justify-center py-4 px-4 border-2 border-cyan-600 dark:border-cyan-400 rounded-lg shadow-sm text-xl font-bold text-cyan-600 dark:text-cyan-400 bg-transparent hover:bg-cyan-50 dark:hover:bg-cyan-900/30 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 transition-all duration-300"
                                 >
                                     Create an account
                                 </Link>

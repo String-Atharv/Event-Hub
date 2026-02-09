@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from './Button';
 import { rolesApi } from '@/api/endpoints/roles';
 import { useAuth } from '@/hooks/useAuth';
+import { isOrganiser } from '@/utils/roles';
 
 export const PromoteToOrganiserButton = () => {
     const { user, logout } = useAuth();
@@ -11,7 +12,7 @@ export const PromoteToOrganiserButton = () => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     // If user is already organiser, don't show button
-    if (user?.roles.includes('ROLE_ORGANISER')) {
+    if (isOrganiser(user)) {
         return null;
     }
 
@@ -39,9 +40,9 @@ export const PromoteToOrganiserButton = () => {
     if (showConfirm) {
         return (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white p-6 rounded-lg max-w-sm w-full">
-                    <h3 className="text-lg font-bold mb-2">Become an Organiser?</h3>
-                    <p className="text-gray-600 mb-4">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-sm w-full">
+                    <h3 className="text-lg font-bold mb-2 text-gray-900 dark:text-white">Become an Organiser?</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
                         This will enable you to list events.
                         <strong>You will be logged out immediately</strong> to update your permissions.
                     </p>

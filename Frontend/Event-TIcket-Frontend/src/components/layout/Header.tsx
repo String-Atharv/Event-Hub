@@ -26,8 +26,10 @@ export const Header = ({ onMenuClick }: HeaderProps) => {
               </svg>
             </button>
 
-            <Link to="/" className="text-xl font-bold text-blue-600 dark:text-blue-400">
-              EventHub
+            <Link to="/" className="flex items-center">
+              <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                <span className="text-cyan-600 dark:text-cyan-500">Event</span>Hub
+              </div>
             </Link>
           </div>
 

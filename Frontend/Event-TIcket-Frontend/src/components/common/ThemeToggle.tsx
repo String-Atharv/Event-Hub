@@ -6,12 +6,12 @@ export const ThemeToggle = () => {
     return (
         <button
             onClick={toggleTheme}
-            className="relative w-14 h-7 min-h-0 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+            className="relative w-14 h-7 min-h-0 rounded-full bg-gray-200 dark:bg-gray-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
         >
             {/* Toggle Track */}
             <div className="absolute inset-0 rounded-full overflow-hidden">
-                <div className={`absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 transition-opacity duration-300 ${isDark ? 'opacity-0' : 'opacity-100'}`} />
+                <div className={`absolute inset-0 bg-gradient-to-r from-cyan-400 to-teal-600 transition-opacity duration-300 ${isDark ? 'opacity-0' : 'opacity-100'}`} />
                 <div className={`absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-900 transition-opacity duration-300 ${isDark ? 'opacity-100' : 'opacity-0'}`} />
             </div>
 

@@ -19,7 +19,7 @@ export const StaffLayout = () => {
                         {/* Logo / Title */}
                         <div className="flex items-center min-w-0">
                             <div className="flex-shrink-0 flex items-center">
-                                <span className="text-lg sm:text-xl font-bold text-blue-600 dark:text-blue-400">EventHub</span>
+                                <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white"><span className="text-cyan-600 dark:text-cyan-500">Event</span>Hub</span>
                                 <span className="ml-1 sm:ml-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium hidden xs:inline">Staff</span>
                             </div>
                         </div>

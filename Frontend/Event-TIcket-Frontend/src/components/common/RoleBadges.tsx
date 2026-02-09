@@ -6,7 +6,8 @@ interface RoleBadgesProps {
 
 export const RoleBadges = ({ roles }: RoleBadgesProps) => {
     const getBadgeVariant = (role: string) => {
-        switch (role) {
+        const upperRole = role.toUpperCase();
+        switch (upperRole) {
             case 'ROLE_ORGANISER':
                 return 'success';
             case 'ROLE_STAFF':

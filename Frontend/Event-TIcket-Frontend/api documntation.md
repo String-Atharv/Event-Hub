@@ -2,7 +2,8 @@
 
 ## 🌐 Base URL
 ```
-http://localhost:8080/api/v1
+Development: http://localhost:8080/api/v1
+Production:  https://ec2-13-204-246-47.ap-south-1.compute.amazonaws.com/api/v1
 ```
 
 ---

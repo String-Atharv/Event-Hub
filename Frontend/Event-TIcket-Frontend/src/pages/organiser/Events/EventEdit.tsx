@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { Card } from '@/components/common/Card';
 import { Spinner } from '@/components/feedback/Spinner';
-import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
 import { eventsApi, UpdateEventDto, UpdateTicketTypeRequestDto } from '@/api/endpoints/events';
 import apiClient from '@/api/client';
@@ -248,13 +247,12 @@ export const EventEdit = () => {
         <div className="text-center py-12">
           <p className="text-red-600 mb-4">Failed to load event</p>
           <p className="text-gray-500">{error}</p>
-          <Button
-            variant="outline"
-            className="mt-4"
+          <button
+            className="mt-4 px-4 py-2 rounded-xl font-medium text-gray-400 bg-white/5 backdrop-blur-md border border-gray-400/30 hover:border-gray-400/60 hover:bg-white/10 transition-all duration-300"
             onClick={() => navigate('/events')}
           >
             Back to Events
-          </Button>
+          </button>
         </div>
       </Card>
     );
@@ -264,13 +262,13 @@ export const EventEdit = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Edit Event</h1>
-        <Button
-          variant="outline"
+        <button
+          className="px-5 py-2.5 rounded-xl font-medium text-gray-400 bg-white/5 backdrop-blur-md border border-gray-400/30 hover:border-gray-400/60 hover:bg-white/10 transition-all duration-300 disabled:opacity-50"
           onClick={() => navigate(`/events/${id}`)}
           disabled={isSubmitting}
         >
           Cancel
-        </Button>
+        </button>
       </div>
 
       {error && (
@@ -380,14 +378,13 @@ export const EventEdit = () => {
           <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-medium text-gray-900 dark:text-white">Ticket Types</h3>
-              <Button
+              <button
                 type="button"
-                variant="outline"
-                size="sm"
+                className="px-4 py-2 rounded-xl font-medium text-indigo-400 bg-indigo-500/10 backdrop-blur-md border border-indigo-400/30 hover:border-indigo-400/60 hover:bg-indigo-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20 text-sm"
                 onClick={addTicketType}
               >
                 + Add Ticket Type
-              </Button>
+              </button>
             </div>
 
             {fields.map((field, index) => (
@@ -397,10 +394,9 @@ export const EventEdit = () => {
                     Ticket Type {index + 1}
                     {field.id && <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">(ID: {field.id})</span>}
                   </h4>
-                  <Button
+                  <button
                     type="button"
-                    variant="danger"
-                    size="sm"
+                    className="px-4 py-2 rounded-xl font-medium text-rose-400 bg-rose-500/10 backdrop-blur-md border border-rose-400/30 hover:border-rose-400/60 hover:bg-rose-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-rose-500/20 text-sm"
                     onClick={() => {
                       if (window.confirm('Are you sure you want to remove this ticket type?')) {
                         removeTicketType(index);
@@ -408,7 +404,7 @@ export const EventEdit = () => {
                     }}
                   >
                     Remove
-                  </Button>
+                  </button>
                 </div>
 
                 <input
@@ -463,32 +459,33 @@ export const EventEdit = () => {
             {fields.length === 0 && (
               <div className="text-center py-8 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg">
                 <p className="text-gray-500 dark:text-gray-400 mb-4">No ticket types configured</p>
-                <Button
+                <button
                   type="button"
-                  variant="outline"
+                  className="px-5 py-2.5 rounded-xl font-medium text-indigo-400 bg-indigo-500/10 backdrop-blur-md border border-indigo-400/30 hover:border-indigo-400/60 hover:bg-indigo-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/20"
                   onClick={addTicketType}
                 >
                   Add Ticket Type
-                </Button>
+                </button>
               </div>
             )}
           </div>
 
           <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
-            <Button
+            <button
               type="button"
-              variant="outline"
+              className="px-5 py-2.5 rounded-xl font-medium text-gray-400 bg-white/5 backdrop-blur-md border border-gray-400/30 hover:border-gray-400/60 hover:bg-white/10 transition-all duration-300 disabled:opacity-50"
               onClick={() => navigate(`/events/${id}`)}
               disabled={isSubmitting}
             >
               Cancel
-            </Button>
-            <Button
+            </button>
+            <button
               type="submit"
+              className="px-6 py-2.5 rounded-xl font-medium text-cyan-400 bg-cyan-500/10 backdrop-blur-md border border-cyan-400/30 hover:border-cyan-400/60 hover:bg-cyan-500/20 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/20 disabled:opacity-50"
               disabled={isSubmitting}
             >
               {isSubmitting ? 'Updating...' : 'Update Event'}
-            </Button>
+            </button>
           </div>
         </form>
       </Card>

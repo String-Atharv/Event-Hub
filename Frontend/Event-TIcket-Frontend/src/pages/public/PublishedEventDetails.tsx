@@ -105,8 +105,10 @@ export const PublishedEventDetails = () => {
       <header className="bg-white/80 dark:bg-netflix-dark/80 backdrop-blur-sm fixed top-0 left-0 right-0 z-50 border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-between">
-            <Link to="/" className="text-xl font-bold text-gray-900 dark:text-white">
-              <span className="text-cyan-500 dark:text-cyan-400">Event</span>Hub
+            <Link to="/" className="flex items-center">
+              <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
+                <span className="text-cyan-600 dark:text-cyan-500">Event</span>Hub
+              </div>
             </Link>
             <div className="flex items-center gap-4">
               <ThemeToggle />

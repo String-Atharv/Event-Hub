@@ -103,7 +103,7 @@ export const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
                     to={item.path}
                     onClick={handleLinkClick}
                     className={`block px-4 py-3 rounded-lg transition-colors ${isActive
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-gradient-to-r from-cyan-500 to-teal-600 text-white'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                       }`}
                   >
@@ -124,7 +124,7 @@ export const Sidebar = ({ isOpen = true, onClose }: SidebarProps) => {
                 <li>
                   <button
                     onClick={handleStaffPortalAccess}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-left bg-purple-600 text-white hover:bg-purple-700 rounded-lg transition-colors shadow-sm"
+                    className="w-full flex items-center gap-3 px-4 py-3 text-left bg-gradient-to-r from-indigo-600 to-purple-700 text-white hover:from-indigo-700 hover:to-purple-800 rounded-lg transition-colors shadow-sm"
                   >
                     <svg
                       className="w-5 h-5"

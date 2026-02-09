@@ -126,7 +126,7 @@ export const QRScanner = ({ onValidationComplete, onError, validatedHistory = []
               )}
               {/* Scan Area Overlay */}
               <div className="absolute inset-0 border-2 border-white/30 pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-2 border-blue-500 rounded-lg"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 border-2 border-cyan-500 rounded-lg"></div>
               </div>
             </div>
             <p className="text-center text-sm text-gray-500 dark:text-gray-400">

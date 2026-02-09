@@ -87,7 +87,7 @@ export const EventDashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <Card className="p-6 shadow-sm">
                     <h3 className="text-lg font-semibold mb-6 flex items-center">
-                        <svg className="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
                         </svg>
@@ -117,7 +117,7 @@ export const EventDashboard = () => {
                 {/* Staff Performance Chart */}
                 <Card className="p-6 shadow-sm">
                     <h3 className="text-lg font-semibold mb-6 flex items-center">
-                        <svg className="w-5 h-5 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 mr-2 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
                         Staff Performance
@@ -183,7 +183,7 @@ export const EventDashboard = () => {
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                 <div className="flex items-center">
-                                                    <div className="h-8 w-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mr-3 font-bold text-xs">
+                                                    <div className="h-8 w-8 rounded-full bg-cyan-100 text-cyan-600 flex items-center justify-center mr-3 font-bold text-xs">
                                                         {staff.staffUsername.substring(0, 2).toUpperCase()}
                                                     </div>
                                                     {staff.staffUsername}
