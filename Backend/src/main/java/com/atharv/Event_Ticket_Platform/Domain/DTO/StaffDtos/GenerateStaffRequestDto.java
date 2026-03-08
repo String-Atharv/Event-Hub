@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class GenerateStaffRequestDto {
-    private Integer count; // Number of staff to generate
-    private Integer validityHours; // How long credentials are valid
+    private Integer count;
+    private Integer validityHours;
 }

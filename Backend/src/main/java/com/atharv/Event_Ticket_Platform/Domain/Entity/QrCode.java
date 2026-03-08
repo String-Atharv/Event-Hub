@@ -1,6 +1,5 @@
 package com.atharv.Event_Ticket_Platform.Domain.Entity;
 
-
 import com.atharv.Event_Ticket_Platform.Domain.Enum.QrCodeStatus;
 import jakarta.persistence.*;
 import lombok.*;

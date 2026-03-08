@@ -19,16 +19,13 @@ public class Staff {
     private Long id;
 
     @Column(name = "staff_user_id", nullable = false, unique = true)
-    private UUID staffUserId; // The Keycloak user ID
+    private UUID staffUserId;
 
     @Column(nullable = false)
-    private UUID eventId;  // ✅ Links staff to specific event
+    private UUID eventId;
 
     @Column(nullable = false)
     private String username;
-
-//    @Column(nullable = false)
-//    private String password;
 
     @Column(nullable = false)
     private String email;
@@ -39,7 +36,6 @@ public class Staff {
     @Column(name = "is_active")
     private Boolean isActive = true;
 
-    // ✅ NEW: Validity period for staff credentials
     @Column(name = "valid_from", nullable = false)
     private LocalDateTime validFrom;
 
@@ -53,7 +49,6 @@ public class Staff {
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
 
-    // ✅ Helper method to check if credentials are still valid
     @Transient
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(validUntil);

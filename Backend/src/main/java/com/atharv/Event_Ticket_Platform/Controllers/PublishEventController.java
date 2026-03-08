@@ -39,6 +39,4 @@ public class PublishEventController {
          return ResponseEntity.noContent().build();
     }
 
-
-
 }

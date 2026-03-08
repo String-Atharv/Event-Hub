@@ -20,7 +20,7 @@ public class UserPrincipal implements UserDetails {
     private UUID userId;
     private String email;
     private String username;
-    private String password;  // ✅ ADD THIS FIELD
+    private String password;
     private List<String> roles;
 
     public UserPrincipal(UUID userId, String email, String username, List<String> roles) {
@@ -30,23 +30,21 @@ public class UserPrincipal implements UserDetails {
         this.roles = roles;
     }
 
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // ========== FIXED: Roles from DB already have ROLE_ prefix ==========
-        // Don't add ROLE_ again if it's already there
+
         return roles.stream()
                 .map(role -> {
                     String authority = role.startsWith("ROLE_") ? role : "ROLE_" + role;
                     return new SimpleGrantedAuthority(authority);
                 })
                 .collect(Collectors.toList());
-        // ====================================================================
+
     }
 
     @Override
     public String getPassword() {
-        return password; // Not needed for JWT
+        return password;
     }
 
     @Override

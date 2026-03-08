@@ -15,6 +15,5 @@ public class TicketTypePerformanceDto {
     private Double totalRevenue;
     private Long totalValidated;
     private Double averagePrice;
-    private Integer numberOfEvents; // How many events use this ticket type
+    private Integer numberOfEvents;
 }
-

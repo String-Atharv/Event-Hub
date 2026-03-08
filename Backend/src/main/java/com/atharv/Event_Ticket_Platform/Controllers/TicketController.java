@@ -71,17 +71,4 @@ public class TicketController {
         return new ResponseEntity<>(qrGenerated,HttpStatus.OK);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

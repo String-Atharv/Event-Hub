@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
     private Long ticketsSold;
     private Double revenue;
     private Long attendeesValidated;
-    private Double attendanceRate; // (validated / sold) * 100
+    private Double attendanceRate;
     private Integer remainingTickets;
 }

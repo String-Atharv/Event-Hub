@@ -21,12 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Authentication Service
- * Handles user registration, authentication, and token generation
- */
 @Service
-@Slf4j  // ✅ Add this
+@Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService {
 
@@ -37,18 +33,13 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
 
-    /**
-     * Register new user
-     */
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
 
-        // ✅ Normalize email to lowercase
         String normalizedEmail = request.getEmail().toLowerCase().trim();
 
-        log.info("📝 Registering user: {}", normalizedEmail);
+        log.info("Registering user: {}", normalizedEmail);
 
-        // Check if user already exists
         if (userRepo.findByEmail(normalizedEmail).isPresent()) {
             throw new RuntimeException("User with email already exists");
         }
@@ -59,7 +50,7 @@ public class AuthenticationService {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = User.builder()
-                .email(normalizedEmail)  // ✅ Use normalized email
+                .email(normalizedEmail)
                 .password(encodedPassword)
                 .name(request.getName())
                 .roles(initialRoles)
@@ -83,21 +74,20 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
-        // ✅ Normalize email to lowercase
         String normalizedIdentifier = request.getIdentifier().toLowerCase().trim();
 
-        log.info("🔑 Authentication attempt for: {}", normalizedIdentifier);
+        log.info("Authentication attempt for: {}", normalizedIdentifier);
 
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            normalizedIdentifier,  // ✅ Use normalized email
+                            normalizedIdentifier,
                             request.getPassword()
                     )
             );
-            log.info("✅ Authentication successful for: {}", normalizedIdentifier);
+            log.info("Authentication successful for: {}", normalizedIdentifier);
         } catch (Exception e) {
-            log.error("❌ Authentication failed for: {} - Reason: {}",
+            log.error(" Authentication failed for: {} - Reason: {}",
                     normalizedIdentifier, e.getMessage());
             throw e;
         }
@@ -114,13 +104,9 @@ public class AuthenticationService {
                 .expiresIn(3600L)
                 .build();
     }
-    /**
-     * Authenticate staff and generate token
-     */
+
     public AuthenticationResponse authenticateStaff(AuthenticationRequest request) {
 
-
-        // Authenticate staff credentials
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getIdentifier(),
@@ -137,11 +123,8 @@ public class AuthenticationService {
             throw new RuntimeException("Staff access expired or inactive");
         }
 
-
-        // Load staff details
         UserDetails staffDetails = userDetailsService.loadUserByUsername(request.getIdentifier());
 
-        // Generate JWT token
         String jwtToken = jwtService.generateToken(staffDetails);
         String refreshToken = jwtService.generateRefreshToken(staffDetails);
 
@@ -149,30 +132,24 @@ public class AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .tokenType("Bearer")
-                .expiresIn(3600L) // 1 hour
+                .expiresIn(3600L)
                 .build();
     }
 
-    /**
-     * Refresh JWT token
-     */
     public AuthenticationResponse refreshToken(String refreshToken) {
 
-        // Extract token from "Bearer " prefix
         if (refreshToken != null && refreshToken.startsWith("Bearer ")) {
             refreshToken = refreshToken.substring(7);
         }
 
-        // Extract username from refresh token
         String username = jwtService.extractUsername(refreshToken);
 
         if (username != null) {
-            // Load user details
+
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            // Validate refresh token
             if (jwtService.isTokenValid(refreshToken, userDetails)) {
-                // Generate new access token
+
                 String accessToken = jwtService.generateToken(userDetails);
 
                 return AuthenticationResponse.builder()
@@ -187,17 +164,11 @@ public class AuthenticationService {
         throw new RuntimeException("Invalid refresh token");
     }
 
-    // ========== ADDED: Method to promote user to ORGANISER ==========
-    /**
-     * Promote user to ORGANISER role
-     * Call this when user first accesses organiser endpoints
-     */
     @Transactional
     public User promoteToOrganiser(String email) {
         User user = userRepo.findByEmailIgnoreCase(email)
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
 
-        // Add ORGANISER role if not already present
         if (!user.hasRole("ROLE_ORGANISER")) {
             user.addRole("ROLE_ORGANISER");
             user = userRepo.save(user);
@@ -205,5 +176,5 @@ public class AuthenticationService {
 
         return user;
     }
-    // ===============================================================
+
 }

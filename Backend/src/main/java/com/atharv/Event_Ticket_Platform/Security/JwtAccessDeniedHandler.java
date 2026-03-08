@@ -13,11 +13,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * JWT Access Denied Handler
- * Handles forbidden access attempts (authenticated but not authorized)
- * Returns 403 Forbidden with JSON error response
- */
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 

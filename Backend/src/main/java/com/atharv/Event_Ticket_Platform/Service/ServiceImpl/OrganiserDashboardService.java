@@ -11,10 +11,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * 🆕 Dedicated service for Organizer Dashboard statistics
- * Provides real-time metrics for organizers
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,10 +20,6 @@ public class OrganiserDashboardService {
     private final TicketsRepo ticketsRepo;
     private final UserRepo userRepo;
 
-    /**
-     * ✅ Get complete organizer dashboard overview
-     * Shows ALL events, revenue, tickets sold, etc.
-     */
     public Map<String, Object> getOrganiserOverview(UUID organiserId) {
         log.info("Fetching organiser overview for: {}", organiserId);
 
@@ -36,17 +28,14 @@ public class OrganiserDashboardService {
 
         List<Event> allEvents = organiser.getOrganisedEvents();
 
-        // Filter published events
         List<Event> publishedEvents = allEvents.stream()
                 .filter(e -> e.getEventStatus() == EventStatus.PUBLISHED)
                 .collect(Collectors.toList());
 
-        // Filter draft events
         List<Event> draftEvents = allEvents.stream()
                 .filter(e -> e.getEventStatus() == EventStatus.DRAFT)
                 .collect(Collectors.toList());
 
-        // Calculate total metrics across ALL events
         long totalTicketsSold = 0;
         double totalRevenue = 0.0;
         long totalAttendees = 0;
@@ -55,14 +44,12 @@ public class OrganiserDashboardService {
             long ticketsSold = ticketsRepo.countByTicketType_Event_Id(event.getId());
             totalTicketsSold += ticketsSold;
 
-            // Calculate revenue for this event
             List<Ticket> tickets = ticketsRepo.findAllByEventId(event.getId());
             double eventRevenue = tickets.stream()
                     .mapToDouble(Ticket::getPrice)
                     .sum();
             totalRevenue += eventRevenue;
 
-            // Count attendees who actually showed up
             totalAttendees += event.getAttendees().size();
         }
 
@@ -85,32 +72,23 @@ public class OrganiserDashboardService {
         return stringObjectMap;
     }
 
-    /**
-     * ✅ Get individual event statistics
-     * Shows detailed metrics for a specific event
-     */
     public Map<String, Object> getEventStatistics(UUID eventId, UUID organiserId) {
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
 
-        // Verify ownership
         if (!event.getOrganiser().getId().equals(organiserId)) {
             throw new IllegalStateException("You don't have permission to view this event");
         }
 
-        // Count tickets sold
         long ticketsSold = ticketsRepo.countByTicketType_Event_Id(eventId);
 
-        // Calculate revenue
         List<Ticket> tickets = ticketsRepo.findAllByEventId(eventId);
         double revenue = tickets.stream()
                 .mapToDouble(Ticket::getPrice)
                 .sum();
 
-        // Count attendees who showed up
         long attendeesCount = event.getAttendees().size();
 
-        // Get ticket type breakdown
         List<Map<String, Object>> ticketTypeBreakdown = event.getTicketTypes().stream()
                 .map(ticketType -> {
                     long sold = ticketType.getTicket().size();
@@ -150,11 +128,8 @@ public class OrganiserDashboardService {
 
     }
 
-    /**
-     * ✅ Get list of attendees for an event
-     * Shows who actually showed up (validated tickets)
-     */
     public List<Map<String, Object>> getEventAttendees(UUID eventId, UUID organiserId) {
+        log.info("Finding event for the {} id ",eventId);
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
 
@@ -171,10 +146,6 @@ public class OrganiserDashboardService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 🆕 Get revenue trend over time
-     * Useful for charts/graphs
-     */
     public Map<String, Object> getRevenueTrend(UUID organiserId) {
         User organiser = userRepo.findById(organiserId)
                 .orElseThrow(() -> new IllegalStateException("Organiser not found"));

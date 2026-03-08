@@ -18,7 +18,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
     @ExceptionHandler(UserNotFoundExceptions.class)
     public ResponseEntity<ErrorDto> handleExceptions(UserNotFoundExceptions ex){
         log.error("user not found....",ex);
@@ -65,7 +64,6 @@ public class GlobalExceptionHandler {
         errorDto.setError("QR not Generated not found");
         return  new ResponseEntity<>(errorDto,HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 
     @ExceptionHandler(QrCodeNotFoundException.class)
     public ResponseEntity<ErrorDto> handleExceptions(QrCodeNotFoundException ex){

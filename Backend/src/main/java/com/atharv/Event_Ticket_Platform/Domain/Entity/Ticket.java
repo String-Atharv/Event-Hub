@@ -1,6 +1,5 @@
 package com.atharv.Event_Ticket_Platform.Domain.Entity;
 
-
 import com.atharv.Event_Ticket_Platform.Domain.Enum.TicketStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,7 +23,6 @@ public class Ticket {
     @Column(name="id", nullable=false, updatable=false)
     private UUID id;
 
-
     @Column(nullable = false)
     private Double price;
 
@@ -40,14 +38,11 @@ public class Ticket {
     @JoinColumn(name="purchaser_id")
     private User purchaser;
 
-    // todo : validation
     @OneToMany(mappedBy = "ticket")
     private List<TicketValidation> ticketValidations=new ArrayList<>();
 
-    // todo : QrCode
     @OneToMany(mappedBy = "ticket",cascade = CascadeType.ALL)
     private List<QrCode> qrCodes=new ArrayList<>();
-
 
     @CreatedDate
     @Column(name="created_at",nullable=false)

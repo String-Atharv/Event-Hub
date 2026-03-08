@@ -20,7 +20,6 @@ public class TicketValidationResponseDto {
     private String attendeeEmail;
     private String eventName;
     private LocalDateTime validatedAt;
-    private String validatedBy; // Staff username
+    private String validatedBy;
     private String message;
 }
-

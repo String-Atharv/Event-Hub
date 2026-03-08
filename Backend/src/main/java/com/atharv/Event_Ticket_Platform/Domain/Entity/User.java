@@ -28,18 +28,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @Builder.Default
     private Set<String> roles = new HashSet<>();
 
-    // todo : organising event
     @OneToMany(mappedBy = "organiser")
     private List<Event> organisedEvents=new ArrayList<>();
 
-    // todo : attending event
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name="event_attendees",
@@ -48,8 +45,6 @@ public class User {
     )
     private List<Event> attendingEvents=new ArrayList<>();
 
-
-    //todo : staffing event
     @ManyToMany
     @JoinTable(
             name="user_staffing_event",
@@ -60,7 +55,6 @@ public class User {
 
     @OneToMany(mappedBy = "purchaser")
     private List<Ticket> tickets = new ArrayList<>();
-
 
     @CreatedDate
     @Column(name="created_at",nullable=false,updatable = false)
@@ -82,21 +76,15 @@ public class User {
         return Objects.hash(id);
     }
 
-    /**
-     * Add a role to the user (automatically adds ROLE_ prefix if not present)
-     */
     public void addRole(String role) {
         if (this.roles == null) {
             this.roles = new HashSet<>();
         }
-        // Ensure ROLE_ prefix
+
         String normalizedRole = role.startsWith("ROLE_") ? role : "ROLE_" + role;
         this.roles.add(normalizedRole);
     }
 
-    /**
-     * Remove a role from the user
-     */
     public void removeRole(String role) {
         if (this.roles != null) {
             String normalizedRole = role.startsWith("ROLE_") ? role : "ROLE_" + role;
@@ -104,9 +92,6 @@ public class User {
         }
     }
 
-    /**
-     * Check if user has a specific role
-     */
     public boolean hasRole(String role) {
         if (this.roles == null) {
             return false;
@@ -115,16 +100,13 @@ public class User {
         return this.roles.contains(normalizedRole);
     }
 
-    /**
-     * Initialize roles collection if null
-     */
     @PrePersist
     @PreUpdate
     private void ensureRolesInitialized() {
         if (this.roles == null) {
             this.roles = new HashSet<>();
         }
-        // Ensure all roles have ROLE_ prefix
+
         Set<String> normalizedRoles = new HashSet<>();
         for (String role : this.roles) {
             normalizedRoles.add(role.startsWith("ROLE_") ? role : "ROLE_" + role);

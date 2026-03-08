@@ -18,10 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * 🔒 Staff-only endpoints for ticket validation
- * Staff can ONLY access these endpoints after logging in with their credentials
- */
 @RestController
 @RequestMapping("/api/v1/staff/validation")
 @RequiredArgsConstructor
@@ -32,15 +28,6 @@ public class StaffValidationController {
     private final StaffTicketValidationService validationService;
     private final ValidationStatsService statsService;
 
-    /**
-     * ✅ Staff scans QR code to validate ticket
-     * POST /api/v1/staff/validation/scan
-     *
-     * Request Body:
-     * {
-     *   "qrCode": "ABC12345"
-     * }
-     */
     @PostMapping("/scan")
     public ResponseEntity<?> validateTicketByQR(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -95,19 +82,6 @@ public class StaffValidationController {
         }
     }
 
-    /**
-     * ✅ CORRECTED: Staff validates ticket manually by typing QR code
-     * POST /api/v1/staff/validation/manual
-     *
-     * Use case: Attendee verbally provides QR code (e.g., "ABC12345")
-     *
-     * Request Body:
-     * {
-     *   "qrCode": "ABC12345"
-     * }
-     *
-     * ⚠️ IMPORTANT: This still validates QR expiry and status!
-     */
     @PostMapping("/manual")
     public ResponseEntity<?> validateTicketManually(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -162,12 +136,6 @@ public class StaffValidationController {
         }
     }
 
-    /**
-     * ✅ CORRECTED: Search for ticket before manual validation
-     * GET /api/v1/staff/validation/search?qrCode={qrCode}
-     *
-     * Staff can verify ticket details before validating manually
-     */
     @GetMapping("/search")
     public ResponseEntity<?> searchTicket(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -206,10 +174,6 @@ public class StaffValidationController {
         }
     }
 
-    /**
-     * ✅ Get MY validation statistics as a staff member
-     * GET /api/v1/staff/validation/stats
-     */
     @GetMapping("/stats")
     public ResponseEntity<?> getMyValidationStats(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         UUID staffUserId = userPrincipal.getUserId();
@@ -223,10 +187,6 @@ public class StaffValidationController {
         }
     }
 
-    /**
-     * 🆕 Get my recent validation history (paginated)
-     * GET /api/v1/staff/validation/my-history
-     */
     @GetMapping("/my-history")
     public ResponseEntity<?> getMyValidationHistory(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -246,10 +206,6 @@ public class StaffValidationController {
         }
     }
 
-    /**
-     * 🆕 Get my validations grouped by ticket type
-     * GET /api/v1/staff/validation/stats/by-ticket-type
-     */
     @GetMapping("/stats/by-ticket-type")
     public ResponseEntity<?> getMyStatsByTicketType(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         UUID staffUserId = userPrincipal.getUserId();
@@ -263,10 +219,6 @@ public class StaffValidationController {
         }
     }
 
-    /**
-     * 🆕 Get my credential information
-     * GET /api/v1/staff/validation/my-credentials
-     */
     @GetMapping("/my-credentials")
     public ResponseEntity<?> getMyCredentials(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         UUID staffUserId = userPrincipal.getUserId();

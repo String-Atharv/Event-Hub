@@ -23,10 +23,6 @@ public class StaffIamService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * ✅ Generate staff accounts for a specific event with validity period
-     * (JWT + Spring Security based)
-     */
     @Transactional
     public List<StaffCredentialWithPasswordDto> createStaffAccounts(
             UUID organiserId,
@@ -34,9 +30,7 @@ public class StaffIamService {
             int numberOfStaff,
             int validityHours
     ) {
-        log.info("Organiser {} requesting {} staff accounts for event {} with {} hours validity",
-                organiserId, numberOfStaff, eventId, validityHours);
-
+        
         if (numberOfStaff <= 0 || numberOfStaff > 100) {
             throw new IllegalArgumentException("Number of staff must be between 1 and 100");
         }
@@ -59,8 +53,6 @@ public class StaffIamService {
                 throw new RuntimeException("Generated staff email already exists");
             }
 
-
-            // 1️⃣ Create USER (authentication identity)
             User staffUser = User.builder()
                     .name(username)
                     .email(email)
@@ -70,9 +62,8 @@ public class StaffIamService {
 
             userRepo.save(staffUser);
 
-            // 2️⃣ Create STAFF (business identity)
             Staff staff = Staff.builder()
-                    .staffUserId(staffUser.getId()) // ✅ local DB user ID
+                    .staffUserId(staffUser.getId())
                     .eventId(eventId)
                     .username(username)
                     .email(email)
@@ -84,7 +75,6 @@ public class StaffIamService {
 
             staffRepo.save(staff);
 
-            // 3️⃣ Return credentials (password shown ONCE)
             staffCredentials.add(
                     StaffCredentialWithPasswordDto.builder()
                             .staffUserId(staffUser.getId())
@@ -103,9 +93,6 @@ public class StaffIamService {
         return staffCredentials;
     }
 
-    /**
-     * ✅ Deactivate staff user (soft delete)
-     */
     @Transactional
     public void deleteStaffUser(UUID organiserId, UUID eventId, String userId) {
 
@@ -120,9 +107,6 @@ public class StaffIamService {
         log.info("Deactivated staff user {}", userId);
     }
 
-    /**
-     * ✅ Reset staff password (local DB)
-     */
     @Transactional
     public String resetPassword(UUID organiserId, UUID eventId, String userId) {
 
@@ -142,9 +126,6 @@ public class StaffIamService {
         return newPassword;
     }
 
-    /**
-     * ✅ Extend validity period
-     */
     @Transactional
     public Staff extendValidity(UUID organiserId, UUID eventId, String userId, int additionalHours) {
 
@@ -156,8 +137,6 @@ public class StaffIamService {
         staff.setValidUntil(staff.getValidUntil().plusHours(additionalHours));
         return staffRepo.save(staff);
     }
-
-    // ------------------- helpers -------------------
 
     private void validateOwnership(Staff staff, UUID organiserId, UUID eventId) {
         if (!staff.getCreatedByOrganiserId().equals(organiserId)) {

@@ -18,5 +18,5 @@ public class TicketPurchasedDetails {
     private TicketStatus status;
     private TicketTypeDetails ticketType;
     private LocalDateTime purchasedAt;
-//    private QrCodeDetails qrCode;
+
 }

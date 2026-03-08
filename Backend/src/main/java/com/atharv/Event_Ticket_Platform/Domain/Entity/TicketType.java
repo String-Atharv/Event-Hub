@@ -1,6 +1,5 @@
 package com.atharv.Event_Ticket_Platform.Domain.Entity;
 
-
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.Fetch;
 import lombok.*;
@@ -28,7 +27,6 @@ public class TicketType {
 
     @Column(name="total_available")
     private Integer totalAvailable;
-
 
     private String description;
 

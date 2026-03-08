@@ -9,9 +9,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-/**
- * Response DTO when staff successfully validates a ticket
- */
 @Data @AllArgsConstructor @NoArgsConstructor
 @Builder
 public class TicketValidationResponseDto {

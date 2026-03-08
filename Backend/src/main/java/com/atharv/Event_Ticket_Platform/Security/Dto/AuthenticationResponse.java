@@ -6,10 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Authentication Response DTO
- * Contains JWT access token, refresh token, and metadata
- */
 @Data
 @Builder
 @NoArgsConstructor

@@ -20,8 +20,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.security.core.context.SecurityContextHolder.*;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -68,7 +66,6 @@ public class StaffValidationFilter extends OncePerRequestFilter {
 
                 Staff staff = staffOpt.get();
 
-                // Update last login (throttled)
                 if (staff.getLastLogin() == null ||
                         staff.getLastLogin().isBefore(LocalDateTime.now().minusMinutes(5))) {
                     staff.setLastLogin(LocalDateTime.now());

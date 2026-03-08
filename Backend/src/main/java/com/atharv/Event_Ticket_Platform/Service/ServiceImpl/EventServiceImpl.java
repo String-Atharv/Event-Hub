@@ -53,23 +53,19 @@ public class EventServiceImpl implements EventService {
 
     }
 
-
-
     @Override
     public Page<Event> listEventForOrganiser(UUID organiserId, Pageable pageable) {
         return eventRepo.findByOrganiserId(organiserId,pageable);
     }
 
     @Override
-    @Transactional  // ✅ ADD THIS - Very Important!
+    @Transactional
     public Event updateEvent(UUID organiserId, UUID eventId, UpdateEventRequestDto updateEventRequestDto) {
         log.info("Updating event - ID: {}, Organiser: {}", eventId, organiserId);
 
-        // 1. Fetch existing event
         Event existingEvent = eventRepo.findByIdAndOrganiser_id(eventId, organiserId)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found or you don't have permission"));
 
-        // 2. Update basic event fields
         if (updateEventRequestDto.getName() != null) {
             existingEvent.setName(updateEventRequestDto.getName());
         }
@@ -95,20 +91,17 @@ public class EventServiceImpl implements EventService {
             existingEvent.setEventType(updateEventRequestDto.getEventType());
         }
 
-        // 3. Update ticket types
         if (updateEventRequestDto.getTicketTypes() != null && !updateEventRequestDto.getTicketTypes().isEmpty()) {
             for (UpdateTicketTypeRequestDto ticketDto : updateEventRequestDto.getTicketTypes()) {
                 if (ticketDto.getId() != null) {
-                    // Update existing ticket type
+
                     TicketType existingTicketType = ticketTypeRepo.findById(ticketDto.getId())
                             .orElseThrow(() -> new ResourceNotFoundException("TicketType with ID " + ticketDto.getId() + " not found"));
 
-                    // Verify this ticket type belongs to this event
                     if (!existingTicketType.getEvent().getId().equals(eventId)) {
                         throw new IllegalArgumentException("TicketType " + ticketDto.getId() + " does not belong to this event");
                     }
 
-                    // Update ticket type fields
                     if (ticketDto.getName() != null) {
                         existingTicketType.setName(ticketDto.getName());
                     }
@@ -124,7 +117,7 @@ public class EventServiceImpl implements EventService {
 
                     log.info("Updated ticket type ID: {}", ticketDto.getId());
                 } else {
-                    // Create new ticket type (if ID is null, it's a new ticket type)
+
                     TicketType newTicketType = TicketType.builder()
                             .name(ticketDto.getName())
                             .price(ticketDto.getPrice())
@@ -139,17 +132,14 @@ public class EventServiceImpl implements EventService {
             }
         }
 
-        // 4. Update event status based on completeness
         updateEventStatus(existingEvent);
 
-        // 5. Save and return updated event
-        Event updatedEvent = eventRepo.save(existingEvent);  // ✅ THIS WAS MISSING!
+        Event updatedEvent = eventRepo.save(existingEvent);
         log.info("Event UPDATED successfully - ID: {}", updatedEvent.getId());
 
         return updatedEvent;
     }
 
-    // Helper method to update event status
     private void updateEventStatus(Event event) {
         if (event.getSalesStartDate() != null &&
                 event.getSalesEndDate() != null &&
@@ -192,29 +182,23 @@ public class EventServiceImpl implements EventService {
     public void deleteTicketType(UUID organiserId, UUID eventId, Integer ticketTypeId) {
         log.info("Deleting ticket type - ID: {}, Event: {}, Organiser: {}", ticketTypeId, eventId, organiserId);
 
-        // 1. Verify event ownership
         Event event = eventRepo.findByIdAndOrganiser_id(eventId, organiserId)
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found or you don't have permission"));
 
-        // 2. Find ticket type
         TicketType ticketType = ticketTypeRepo.findById(ticketTypeId)
                 .orElseThrow(() -> new ResourceNotFoundException("TicketType not found"));
 
-        // 3. Verify ticket type belongs to this event
         if (!ticketType.getEvent().getId().equals(eventId)) {
             throw new IllegalArgumentException("TicketType does not belong to this event");
         }
 
-        // 4. Check if there are tickets sold (optional - prevent deletion if tickets exist)
         if (ticketType.getTicket() != null && !ticketType.getTicket().isEmpty()) {
             throw new IllegalStateException("Cannot delete ticket type with existing tickets sold");
         }
 
-        // 5. Delete ticket type
         ticketTypeRepo.delete(ticketType);
         log.info("TicketType deleted successfully - ID: {}", ticketTypeId);
     }
-
 
     @Override
     public Page<Event> listPublishedEvents(Pageable pageable) {
@@ -236,5 +220,3 @@ public class EventServiceImpl implements EventService {
         }
     }
 }
-
-

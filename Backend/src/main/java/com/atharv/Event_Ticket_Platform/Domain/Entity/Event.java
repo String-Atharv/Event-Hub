@@ -1,6 +1,5 @@
 package com.atharv.Event_Ticket_Platform.Domain.Entity;
 
-
 import com.atharv.Event_Ticket_Platform.Domain.Enum.EventStatus;
 import com.atharv.Event_Ticket_Platform.Domain.Enum.EventType;
 import jakarta.persistence.*;
@@ -17,7 +16,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name="event")
-@EntityListeners(AuditingEntityListener.class)  // ← ADD THIS LINE
+@EntityListeners(AuditingEntityListener.class)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Event {
@@ -47,11 +46,11 @@ public class Event {
     private LocalDateTime salesEndDate;
 
     @Column(nullable = true)
-    @Enumerated(EnumType.STRING) // if this statement is not mentioned then numeric position of enum value is stored in db
+    @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="organiser_id",nullable = false) // organiser_id is foreign key in Event table
+    @JoinColumn(name="organiser_id",nullable = false)
     private User organiser;
 
     @ManyToMany(mappedBy = "attendingEvents")

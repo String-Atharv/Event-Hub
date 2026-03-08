@@ -14,7 +14,6 @@ public class OrganiserCompleteAnalyticsDto {
     private String organiserName;
     private String organiserEmail;
 
-    // Summary across all events
     private Integer totalEvents;
     private Integer publishedEvents;
     private Integer draftEvents;
@@ -23,10 +22,8 @@ public class OrganiserCompleteAnalyticsDto {
     private Long totalAttendeesValidated;
     private Double averageAttendanceRate;
 
-    // Per-event breakdown
     private List<EventAnalyticsDto> eventAnalytics;
 
-    // Top performers
     private EventAnalyticsDto mostRevenueEvent;
     private EventAnalyticsDto mostTicketsSoldEvent;
     private EventAnalyticsDto bestAttendanceRateEvent;

@@ -35,14 +35,11 @@ public class TicketServiceImpl implements TicketService {
     @Transactional
     @Override
     public Ticket purchaseTicket(UUID userId, Integer ticketTypeId) {
-        // VERIFY THE USER
+
         User user = userRepo.findById(userId).orElseThrow(()->new UserNotFoundExceptions(String.format("user with id : %s not found",userId)));
 
-        // verify the ticketType
         TicketType ticketType=ticketTypeRepo.findByIdForUpdate(ticketTypeId).orElseThrow(()->new ResourceNotFoundException (String.format("TicketType with ID : %s not found",ticketTypeId)));
 
-
-        // 3. Verify event sales window
         LocalDateTime salesStartTime = ticketType.getEvent().getSalesStartDate();
         LocalDateTime salesEndTime = ticketType.getEvent().getSalesEndDate();
 
@@ -59,13 +56,10 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalStateException("Ticket sales have ended");
         }
 
-
-        // user can purchase ticket if the tickets are available
         if(ticketType.getTotalAvailable()==null || ticketType.getTotalAvailable()<=0){
             log.info("TotalAvailable Tickets for this TicketType is 0");
             throw new TicketSoldOutException(String.format("Tickets sold out for this ticketType : %s",ticketTypeId));
         }
-
 
         Ticket ticket = Ticket.builder()
                 .ticketType(ticketType)
@@ -105,12 +99,10 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalStateException("this ticket doesn't belong to this user");
         }
 
-        // create TicketPurchaseDetails
         TicketPurchasedDetails ticketPurchasedDetails=ticketMapper.toDetails(ticket);
         return ticketPurchasedDetails;
 
     }
-
 
     @Transactional
     @Override
@@ -134,7 +126,6 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalStateException("Ticket already cancelled");
         }
 
-        // Mark as cancelled and restore ticket availability
         ticket.setStatus(TicketStatus.CANCELLED);
 
         TicketType ticketType = ticket.getTicketType();
@@ -145,9 +136,5 @@ public class TicketServiceImpl implements TicketService {
 
         log.info("Ticket cancelled successfully - TicketId: {}", ticketId);
     }
-
-
-
-
 
 }
