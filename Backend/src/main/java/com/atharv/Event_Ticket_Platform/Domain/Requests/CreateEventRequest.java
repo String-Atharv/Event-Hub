@@ -25,5 +25,4 @@ public class CreateEventRequest {
     private String description;
     private List<CreateTicketTypeRequest> ticketTypes = new ArrayList<>();
 
-
 }

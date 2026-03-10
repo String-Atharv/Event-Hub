@@ -25,10 +25,10 @@ public interface EventMapper {
     TicketTypeCreatedResponseDto toDto(TicketType ticketType);
     List<TicketTypeCreatedResponseDto> toDto(List<TicketType> ticketTypes);
 
-    @Mapping(target = "id",ignore = true) // do not map the id from client
-    @Mapping(target = "eventStatus",ignore = true) // do not map the eventStatus from client
-    @Mapping(target = "organiser",ignore = true) // do not set the organiser from client , it is set from jwt
-    // ticketType in CreateEventRequest ->(to)  ticketType in Event class
+    @Mapping(target = "id",ignore = true)
+    @Mapping(target = "eventStatus",ignore = true)
+    @Mapping(target = "organiser",ignore = true)
+
     @Mapping(target = "attendees", ignore = true)
     @Mapping(target = "staff", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -42,7 +42,6 @@ public interface EventMapper {
     @Mapping(target = "updatedAt", ignore = true)
     TicketType toTicketType(CreateTicketTypeRequest ticketTypeRequest);
 
-
     ListEventTicketTypeResponseDto toListEventTicketTypeResponseDto(TicketType ticketType);
     ListEventResponseDto toListEventResponseDto(Event event);
 
@@ -55,6 +54,5 @@ public interface EventMapper {
     EventResponseDto toEventResponseDto(Event event);
 
     PublishEventDto toPublishEventDto(Event event);
-
 
 }

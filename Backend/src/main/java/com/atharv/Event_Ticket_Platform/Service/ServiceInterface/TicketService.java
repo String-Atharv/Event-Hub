@@ -19,3 +19,4 @@ public interface TicketService {
     @Transactional
     void cancelTicket(UUID userId, UUID ticketId);
 }
+

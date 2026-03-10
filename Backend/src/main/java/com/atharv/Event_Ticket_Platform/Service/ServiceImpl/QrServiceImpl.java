@@ -44,7 +44,6 @@ public class QrServiceImpl implements QrService {
     private long qrExpiryMinutes;
     private LocalDateTime qrGeneratedTime;
 
-
     @Override
     public QrCode createQr(Ticket ticket) {
 
@@ -53,7 +52,6 @@ public class QrServiceImpl implements QrService {
         qrCode.setQrCodeStatus(QrCodeStatus.ACTIVE);
         qrCode.setGeneratedDateTime(LocalDateTime.now());
 
-        // generate unique public code
         String publicCode;
         do {
             publicCode = generatePublicQrCode.generate(8);
@@ -65,9 +63,8 @@ public class QrServiceImpl implements QrService {
         return qrCodeRepo.save(qrCode);
     }
 
-
     @Override
-public byte[] createQrImage(String QrId) throws RuntimeException, IOException, WriterException {
+ public byte[] createQrImage(String QrId) throws RuntimeException, IOException, WriterException {
         BitMatrix bitMatrix=new MultiFormatWriter().encode(QrId, BarcodeFormat.QR_CODE,width,height);
 
         ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
@@ -88,44 +85,6 @@ public byte[] createQrImage(String QrId) throws RuntimeException, IOException, W
         ticket.getQrCodes().add(qr);
     }
 
-//    @Transactional
-//    @Override
-//    public void scanQrOrThrow(String publicCode) {
-//
-//        QrCode qr = qrCodeRepo.findByPublicCode(publicCode)
-//                .orElseThrow(() ->
-//                        new QrCodeNotFoundException("Invalid QR code"));
-//
-//        Ticket ticket = qr.getTicket();
-//        if (ticket == null) {
-//            throw new IllegalStateException("QR not linked to ticket");
-//        }
-//
-//        // 1. QR expiry check
-//        LocalDateTime expiry =
-//                qr.getGeneratedDateTime().plusMinutes(qrExpiryMinutes);
-//
-//        if (LocalDateTime.now().isAfter(expiry)) {
-//            qr.setQrCodeStatus(QrCodeStatus.EXPIRED);
-//            throw new IllegalStateException("QR expired");
-//        }
-//
-//        // 2. QR status check
-//        if (qr.getQrCodeStatus() != QrCodeStatus.ACTIVE) {
-//            throw new IllegalStateException("QR already used");
-//        }
-//
-//        // 3. Ticket status check
-//        if (ticket.getStatus() != TicketStatus.PURCHASED) {
-//            throw new IllegalStateException("Ticket already used or invalid");
-//        }
-//
-//        // 4. CONSUME (atomic)
-//        qr.setQrCodeStatus(QrCodeStatus.USED);
-//        ticket.setStatus(TicketStatus.USED);
-//    }
-
-
     @Override
     public QrCodeDetails qrCodeDetails(UUID userId, UUID ticketId) {
 
@@ -143,7 +102,6 @@ public byte[] createQrImage(String QrId) throws RuntimeException, IOException, W
         return latestQr != null ? ticketMapper.toDetails(latestQr) : null;
     }
 
-
     @Transactional
     @Override
     public byte[] generateQrImage(UUID userId, UUID ticketId)
@@ -157,7 +115,6 @@ public byte[] createQrImage(String QrId) throws RuntimeException, IOException, W
             throw new IllegalStateException("Unauthorized access");
         }
 
-        // Ticket must be usable
         if (ticket.getStatus() == TicketStatus.USED) {
             throw new IllegalStateException("Ticket already used");
         }
@@ -169,7 +126,6 @@ public byte[] createQrImage(String QrId) throws RuntimeException, IOException, W
         QrCode qr =
                 qrCodeRepo.findTopByTicket_IdOrderByGeneratedDateTimeDesc(ticketId);
 
-        // Check if existing QR can be reused
         if (qr != null && qr.getQrCodeStatus() == QrCodeStatus.ACTIVE) {
 
             LocalDateTime expiry =
@@ -179,18 +135,12 @@ public byte[] createQrImage(String QrId) throws RuntimeException, IOException, W
                 return createQrImage(qr.getPublicCode());
             }
 
-            // Expire old QR
             qr.setQrCodeStatus(QrCodeStatus.EXPIRED);
         }
 
-        // Create new QR
         QrCode newQr = createQr(ticket);
 
         return createQrImage(newQr.getPublicCode());
     }
-
-
-
-
 
 }

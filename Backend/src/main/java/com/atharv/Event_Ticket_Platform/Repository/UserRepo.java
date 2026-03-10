@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface UserRepo extends JpaRepository<User, UUID> {
 
     Optional<User> findByEmailIgnoreCase(String identifier);
-    // ✅ Case-insensitive email lookup
+
     @Query("SELECT u FROM User u WHERE LOWER(u.email) = LOWER(:email)")
     Optional<User> findByEmail(@Param("email") String email);
 

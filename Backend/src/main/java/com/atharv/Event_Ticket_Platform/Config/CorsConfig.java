@@ -15,21 +15,19 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:5173",
                 "http://localhost:3000"
                         ,"https://d1n3aocu9m7nw9.cloudfront.net"
         ));
 
-        
         config.setAllowedMethods(Arrays.asList(
                 "GET",
                 "POST",
                 "PUT",
-                "PATCH",  
+                "PATCH",
                 "DELETE",
-                "OPTIONS", 
+                "OPTIONS",
                 "HEAD"
         ));
 
@@ -42,10 +40,7 @@ public class CorsConfig {
         config.setExposedHeaders(Arrays.asList(
                 "Authorization",
                 "Content-Type",
-                "X-Requested-With",
                 "Accept",
-                "Origin",
-                "Access-Control-Request-Method",
                 "Access-Control-Request-Headers"
         ));
 

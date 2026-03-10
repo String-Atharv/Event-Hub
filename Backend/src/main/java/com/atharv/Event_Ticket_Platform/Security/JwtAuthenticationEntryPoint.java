@@ -13,11 +13,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * JWT Authentication Entry Point
- * Handles unauthorized access attempts
- * Returns 401 Unauthorized with JSON error response
- */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

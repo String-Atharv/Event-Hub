@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c824a420-aaab-46e7-b58d-a4a8bec56ede" name="Changes" comment="29 dec commit - where claude made successdull changes and create event was working....">
-      <change afterPath="$PROJECT_DIR$/Backend/src/main/resources/application-prod.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,33 +50,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.EventTicketPlatformApplication.executor": "Run",
-    "Application.run app.executor": "Run",
-    "Docker.docker-compose.yml.image: Compose Deployment.executor": "Run",
-    "JUnit.All in Event-Ticket-Platform.executor": "Run",
-    "JUnit.EventTicketPlatformApplicationTests.contextLoads.executor": "Run",
-    "JUnit.EventTicketPlatformApplicationTests.executor": "Run",
-    "Maven.Event-Ticket-Platform [clean,install].executor": "Run",
-    "Maven.Event-Ticket-Platform [clean,validate...].executor": "Run",
-    "Maven.Event-Ticket-Platform [clean].executor": "Run",
-    "Maven.Event-Ticket-Platform [compile].executor": "Run",
-    "Maven.Event-Ticket-Platform [install].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "full.screen.before.presentation.mode": "true",
-    "git-widget-placeholder": "fix-updates",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/atharvshivale/Desktop/Event-Hub",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "copyright"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.EventTicketPlatformApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.run app.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.image: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.All in Event-Ticket-Platform.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EventTicketPlatformApplicationTests.contextLoads.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.EventTicketPlatformApplicationTests.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Event-Ticket-Platform [clean,install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Event-Ticket-Platform [clean,validate...].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Event-Ticket-Platform [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Event-Ticket-Platform [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Event-Ticket-Platform [install].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/atharvshivale/Desktop/Event-Hub&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;copyright&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.atharv.Event_Ticket_Platform.Domain.DTO.EventDtos" />

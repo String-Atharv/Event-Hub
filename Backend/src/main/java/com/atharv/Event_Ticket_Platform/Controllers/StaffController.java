@@ -29,10 +29,6 @@ public class StaffController {
     private final StaffIamService keycloakUserService;
     private final StaffRepo staffRepo;
 
-    /**
-     * ✅ Generate staff accounts for a specific event
-     * POST /api/v1/staff/events/{eventId}/generate
-     */
     @PostMapping("/events/{eventId}/generate")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<GenerateStaffResponseDto> generateStaffAccounts(
@@ -44,7 +40,6 @@ public class StaffController {
         log.info("Organiser {} requesting {} staff accounts for event {} with {} hours validity",
                 organiserId, request.getCount(), eventId, request.getValidityHours());
 
-        // Defaults
         int count = request.getCount() != null ? request.getCount() : 1;
         int validityHours = request.getValidityHours() != null ? request.getValidityHours() : 24;
 
@@ -73,10 +68,6 @@ public class StaffController {
         }
     }
 
-    /**
-     * ✅ Get all staff for a specific event (including expired ones)
-     * GET /api/v1/staff/events/{eventId}
-     */
     @GetMapping("/events/{eventId}")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Page<StaffCredentialsDto>> getStaffByEvent(
@@ -115,10 +106,6 @@ public class StaffController {
         }
     }
 
-    /**
-     * ✅ Get only active (non-expired) staff for a specific event
-     * GET /api/v1/staff/events/{eventId}/active
-     */
     @GetMapping("/events/{eventId}/active")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Page<StaffCredentialsDto>> getActiveStaffByEvent(
@@ -143,7 +130,7 @@ public class StaffController {
                             .isActive(staff.getIsActive())
                             .validFrom(staff.getValidFrom())
                             .validUntil(staff.getValidUntil())
-                            .isExpired(false) // These are all active
+                            .isExpired(false)
                             .createdAt(staff.getCreatedAt())
                             .lastLogin(staff.getLastLogin())
                             .build()
@@ -157,10 +144,6 @@ public class StaffController {
         }
     }
 
-    /**
-     * ✅ Delete a staff user from a specific event
-     * DELETE /api/v1/staff/events/{eventId}/users/{userId}
-     */
     @DeleteMapping("/events/{eventId}/users/{userId}")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, String>> deleteStaffUser(
@@ -189,10 +172,6 @@ public class StaffController {
         }
     }
 
-    /**
-     * ✅ Reset staff user password
-     * POST /api/v1/staff/events/{eventId}/users/{userId}/reset-password
-     */
     @PostMapping("/events/{eventId}/users/{userId}/reset-password")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, String>> resetStaffPassword(
@@ -223,10 +202,6 @@ public class StaffController {
         }
     }
 
-    /**
-     * ✅ Extend validity period for a staff member
-     * POST /api/v1/staff/events/{eventId}/users/{userId}/extend-validity
-     */
     @PostMapping("/events/{eventId}/users/{userId}/extend-validity")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, Object>> extendValidity(
@@ -260,10 +235,6 @@ public class StaffController {
         }
     }
 
-    /**
-     * ✅ Get staff statistics for an event
-     * GET /api/v1/staff/events/{eventId}/stats
-     */
     @GetMapping("/events/{eventId}/stats")
     @PreAuthorize("hasRole('ORGANISER')")
     public ResponseEntity<Map<String, Object>> getStaffStats(

@@ -13,12 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
-/**
- * 📊 Analytics Controller
- * Provides comprehensive analytics endpoints for organizers
- */
 @RestController
 @RequestMapping("/api/v1/analytics")
 @RequiredArgsConstructor
@@ -27,58 +22,6 @@ import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 public class AnalyticsController {
     private final AnalyticsService analyticsService;
 
-    /**
-     * ✅ Get complete analytics across ALL events
-     * GET /api/v1/analytics/complete
-     * <p>
-     * Returns:
-     * {
-     * "organiserId": "uuid",
-     * "organiserName": "John Smith",
-     * "totalEvents": 5,
-     * "publishedEvents": 3,
-     * "draftEvents": 2,
-     * "totalTicketsSold": 1500,
-     * "totalRevenue": 75000.00,
-     * "totalAttendeesValidated": 1200,
-     * "averageAttendanceRate": 80.0,
-     * "eventAnalytics": [
-     * {
-     * "eventId": "uuid",
-     * "eventName": "Summer Festival",
-     * "totalTicketsSold": 500,
-     * "totalRevenue": 25000.00,
-     * "totalAttendeesValidated": 400,
-     * "overallAttendanceRate": 80.0,
-     * "ticketTypeAnalytics": [
-     * {
-     * "ticketTypeId": 1,
-     * "ticketTypeName": "VIP",
-     * "price": 100.00,
-     * "ticketsSold": 100,
-     * "revenue": 10000.00,
-     * "attendeesValidated": 95,
-     * "attendanceRate": 95.0,
-     * "remainingTickets": 0
-     * },
-     * {
-     * "ticketTypeId": 2,
-     * "ticketTypeName": "General",
-     * "price": 50.00,
-     * "ticketsSold": 400,
-     * "revenue": 15000.00,
-     * "attendeesValidated": 305,
-     * "attendanceRate": 76.25,
-     * "remainingTickets": 100
-     * }
-     * ]
-     * }
-     * ],
-     * "mostRevenueEvent": {...},
-     * "mostTicketsSoldEvent": {...},
-     * "bestAttendanceRateEvent": {...}
-     * }
-     */
     @GetMapping("/complete")
     public ResponseEntity<?> getCompleteAnalytics(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         UUID organiserId = userPrincipal.getUserId();
@@ -101,12 +44,6 @@ public class AnalyticsController {
         }
     }
 
-    /**
-     * ✅ Get analytics for only published events
-     * GET /api/v1/analytics/published
-     * <p>
-     * Same structure as /complete but only for published events
-     */
     @GetMapping("/published")
     public ResponseEntity<?> getPublishedEventsAnalytics(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         UUID organiserId = userPrincipal.getUserId();
@@ -121,28 +58,6 @@ public class AnalyticsController {
         }
     }
 
-    /**
-     * ✅ Get analytics for a specific event
-     * GET /api/v1/analytics/events/{eventId}
-     * <p>
-     * Returns detailed analytics for one event including:
-     * - Total tickets sold
-     * - Total revenue
-     * - Total attendees validated
-     * - Breakdown per ticket type
-     * <p>
-     * Response:
-     * {
-     * "eventId": "uuid",
-     * "eventName": "Summer Festival",
-     * "eventStatus": "PUBLISHED",
-     * "totalTicketsSold": 500,
-     * "totalRevenue": 25000.00,
-     * "totalAttendeesValidated": 400,
-     * "overallAttendanceRate": 80.0,
-     * "ticketTypeAnalytics": [...]
-     * }
-     */
     @GetMapping("/events/{eventId}")
     public ResponseEntity<?> getEventAnalytics(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -165,32 +80,6 @@ public class AnalyticsController {
         }
     }
 
-    /**
-     * 🆕 Get ticket type performance across ALL events
-     * GET /api/v1/analytics/ticket-types/performance
-     * <p>
-     * Shows which ticket type names perform best overall
-     * <p>
-     * Response:
-     * [
-     * {
-     * "ticketTypeName": "VIP",
-     * "totalSold": 500,
-     * "totalRevenue": 50000.00,
-     * "totalValidated": 475,
-     * "averagePrice": 100.00,
-     * "numberOfEvents": 3
-     * },
-     * {
-     * "ticketTypeName": "General Admission",
-     * "totalSold": 1000,
-     * "totalRevenue": 25000.00,
-     * "totalValidated": 800,
-     * "averagePrice": 25.00,
-     * "numberOfEvents": 5
-     * }
-     * ]
-     */
     @GetMapping("/ticket-types/performance")
     public ResponseEntity<?> getTicketTypePerformance(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         UUID organiserId = userPrincipal.getUserId();
@@ -205,31 +94,6 @@ public class AnalyticsController {
         }
     }
 
-    /**
-     * 🆕 Compare multiple events side-by-side
-     * POST /api/v1/analytics/events/compare
-     * <p>
-     * Request Body:
-     * {
-     * "eventIds": ["uuid1", "uuid2", "uuid3"]
-     * }
-     * <p>
-     * Response:
-     * {
-     * "events": [
-     * {
-     * "eventId": "uuid1",
-     * "eventName": "Event 1",
-     * "totalTicketsSold": 500,
-     * "totalRevenue": 25000.00,
-     * ...
-     * },
-     * ...
-     * ],
-     * "comparisonCount": 3,
-     * "organiserId": "uuid"
-     * }
-     */
     @PostMapping("/events/compare")
     public ResponseEntity<?> compareEvents(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -265,21 +129,6 @@ public class AnalyticsController {
         }
     }
 
-    /**
-     * 🆕 Get summary statistics (lightweight endpoint)
-     * GET /api/v1/analytics/summary
-     * <p>
-     * Quick overview without full event breakdown
-     * <p>
-     * Response:
-     * {
-     * "totalEvents": 5,
-     * "totalTicketsSold": 1500,
-     * "totalRevenue": 75000.00,
-     * "totalAttendeesValidated": 1200,
-     * "averageAttendanceRate": 80.0
-     * }
-     */
     @GetMapping("/summary")
     public ResponseEntity<?> getAnalyticsSummary(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         UUID organiserId = userPrincipal.getUserId();

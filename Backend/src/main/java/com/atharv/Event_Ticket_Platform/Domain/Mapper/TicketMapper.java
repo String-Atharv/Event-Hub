@@ -33,5 +33,4 @@ public interface TicketMapper {
 
     QrCodeDetails toDetails(QrCode qrCode);
 
-
 }

@@ -29,10 +29,6 @@ public class StaffTicketValidationService {
     @Value("${qr.expiry.minutes}")
     private long qrExpiryMinutes;
 
-    /**
-     * ✅ Staff validates ticket by scanning QR code
-     * This is the PRIMARY validation method
-     */
     @Transactional
     public TicketValidation validateTicketByStaff(String publicCode, UUID staffUserId) {
         String normalizedCode = normalizePublicCode(publicCode);
@@ -55,15 +51,6 @@ public class StaffTicketValidationService {
         return performValidation(ticket, qr, staff, TicketValidationMethod.QR);
     }
 
-
-    /**
-     * ✅ CORRECTED: Manual validation using QR public code
-     *
-     * Use case: Attendee verbally provides QR code, staff types it in
-     *
-     * IMPORTANT: This still validates the QR code's validity and expiry!
-     * The only difference is the input method (typed vs scanned).
-     */
     @Transactional
     public TicketValidation validateTicketManually(String publicCode, UUID staffUserId) {
         String normalizedCode = normalizePublicCode(publicCode);
@@ -88,11 +75,6 @@ public class StaffTicketValidationService {
         return performValidation(ticket, qr, staff, TicketValidationMethod.MANUAL);
     }
 
-
-    /**
-     * ✅ NEW: Search for ticket by public QR code before manual validation
-     * Staff can verify ticket details before validating
-     */
     public Ticket searchTicketForValidation(String publicCode, UUID staffUserId) {
         log.info("Staff {} searching for ticket with QR code: {}", staffUserId, publicCode);
 
@@ -112,7 +94,6 @@ public class StaffTicketValidationService {
 
         verifyTicketBelongsToStaffEvent(ticket, staff);
 
-        // ✅ Also check QR validity during search
         LocalDateTime qrExpiry = qr.getGeneratedDateTime().plusMinutes(qrExpiryMinutes);
         if (LocalDateTime.now().isAfter(qrExpiry)) {
             log.warn("QR code {} is expired", qr.getPublicCode());
@@ -127,11 +108,6 @@ public class StaffTicketValidationService {
         return ticket;
     }
 
-    // ==================== HELPER METHODS ====================
-
-    /**
-     * Verify staff exists and has valid access
-     */
     private Staff verifyStaffAccess(UUID staffUserId) {
         Staff staff = staffRepo.findByStaffUserId(staffUserId)
                 .orElseThrow(() -> new IllegalStateException("Staff member not found"));
@@ -149,9 +125,6 @@ public class StaffTicketValidationService {
         return staff;
     }
 
-    /**
-     * Verify ticket belongs to staff's assigned event
-     */
     private void verifyTicketBelongsToStaffEvent(Ticket ticket, Staff staff) {
         Event ticketEvent = ticket.getTicketType().getEvent();
         if (!ticketEvent.getId().equals(staff.getEventId())) {
@@ -161,10 +134,6 @@ public class StaffTicketValidationService {
         }
     }
 
-    /**
-     * ✅ Validate QR code status and expiry
-     * CRITICAL: This prevents expired/used QR codes from being validated
-     */
     private void validateQrCode(QrCode qr) {
         LocalDateTime qrExpiry = qr.getGeneratedDateTime().plusMinutes(qrExpiryMinutes);
         LocalDateTime now = LocalDateTime.now();
@@ -186,9 +155,6 @@ public class StaffTicketValidationService {
         }
     }
 
-    /**
-     * Validate ticket status
-     */
     private void validateTicketStatus(Ticket ticket) {
         if (ticket.getStatus() == TicketStatus.USED) {
             log.warn("Ticket {} already used", ticket.getId());
@@ -206,25 +172,19 @@ public class StaffTicketValidationService {
         }
     }
 
-    /**
-     * ✅ Perform the actual validation and create records
-     * Now accepts QrCode parameter to mark it as USED
-     */
     private TicketValidation performValidation(
             Ticket ticket,
             QrCode qr,
             Staff staff,
             TicketValidationMethod method
     ) {
-        // Mark ticket as USED
+
         ticket.setStatus(TicketStatus.USED);
         ticketsRepo.save(ticket);
 
-        // ✅ ALWAYS mark QR as USED (both for QR scan and manual entry)
         qr.setQrCodeStatus(QrCodeStatus.EXPIRED);
         qrCodeRepo.save(qr);
 
-        // Create validation record
         Event event = ticket.getTicketType().getEvent();
         TicketValidation validation = TicketValidation.builder()
                 .ticket(ticket)
@@ -237,11 +197,10 @@ public class StaffTicketValidationService {
 
         TicketValidation savedValidation = ticketValidationRepo.save(validation);
 
-        // Update staff last login
         staff.setLastLogin(LocalDateTime.now());
         staffRepo.save(staff);
 
-        log.info("✅ Ticket {} successfully validated by staff {} using {} (QR: {})",
+        log.info(" Ticket {} successfully validated by staff {} using {} (QR: {})",
                 ticket.getId(), staff.getStaffUserId(), method, qr.getPublicCode());
 
         registerAttendeeForEvent(ticket);
@@ -260,22 +219,19 @@ public class StaffTicketValidationService {
         User attendee = ticket.getPurchaser();
         Event event = ticket.getTicketType().getEvent();
 
-        // Check if attendee is already registered for this event
         boolean alreadyAttending = attendee.getAttendingEvents().stream()
                 .anyMatch(e -> e.getId().equals(event.getId()));
 
         if (!alreadyAttending) {
-            // Add attendee to event's attendees list
+
             event.getAttendees().add(attendee);
 
-            // Add event to attendee's attending events list
             attendee.getAttendingEvents().add(event);
 
-            // Save both sides of the relationship
             eventRepo.save(event);
             userRepo.save(attendee);
 
-            log.info("✅ Registered attendee {} for event {} via ticket validation",
+            log.info("Registered attendee {} for event {} via ticket validation",
                     attendee.getId(), event.getId());
         } else {
             log.debug("Attendee {} already registered for event {}",

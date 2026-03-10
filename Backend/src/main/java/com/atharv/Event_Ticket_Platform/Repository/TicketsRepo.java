@@ -30,9 +30,6 @@ public interface TicketsRepo extends JpaRepository<Ticket, UUID> {
     @Query("SELECT t FROM Ticket t WHERE t.ticketType.event.id = :eventId")
     Page<Ticket> findByEventId(@Param("eventId") UUID eventId, Pageable pageable);
 
-    /**
-     * ✅ NEW: Get all tickets for an event (for revenue calculation)
-     */
     @Query("SELECT t FROM Ticket t WHERE t.ticketType.event.id = :eventId")
     List<Ticket> findAllByEventId(@Param("eventId") UUID eventId);
 }

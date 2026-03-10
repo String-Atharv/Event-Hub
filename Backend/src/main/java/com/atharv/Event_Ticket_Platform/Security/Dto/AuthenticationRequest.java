@@ -6,11 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Authentication Request DTO
- * Used for both user and staff login
- * Identifier can be email (for users) or username (for staff)
- */
 @Data
 @Builder
 @NoArgsConstructor
@@ -18,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class AuthenticationRequest {
 
     @NotBlank(message = "Email or username is required")
-    private String identifier; // Email for users, Username for staff
+    private String identifier;
 
     @NotBlank(message = "Password is required")
     private String password;

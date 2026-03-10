@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * 🆕 Organiser Dashboard Controller with Revenue Tracking
- * Provides endpoints for organisers to view event validation statistics,
- * track staff performance, and monitor revenue
- */
 @RestController
 @RequestMapping("/api/v1/organiser/events/{eventId}/dashboard")
 @RequiredArgsConstructor
@@ -29,36 +24,6 @@ public class OrganiserDashboardController {
 
     private final ValidationStatsService statsService;
 
-    /**
-     * ✅ Get overall event validation and revenue statistics
-     * GET /api/v1/organiser/events/{eventId}/dashboard/stats
-     *
-     * Response:
-     * {
-     *   "eventId": "uuid",
-     *   "eventName": "Summer Music Festival",
-     *   "totalTicketsSold": 500,
-     *   "totalValidated": 342,
-     *   "remainingAttendees": 158,
-     *   "totalRevenue": 25000.00,
-     *   "revenueByTicketType": [
-     *     {
-     *       "ticketTypeId": 1,
-     *       "ticketTypeName": "VIP",
-     *       "ticketsSold": 100,
-     *       "revenue": 10000.00,
-     *       "averagePrice": 100.00
-     *     },
-     *     {
-     *       "ticketTypeId": 2,
-     *       "ticketTypeName": "General Admission",
-     *       "ticketsSold": 400,
-     *       "revenue": 15000.00,
-     *       "averagePrice": 37.50
-     *     }
-     *   ]
-     * }
-     */
     @GetMapping("/stats")
     public ResponseEntity<?> getEventDashboardStats(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -81,24 +46,6 @@ public class OrganiserDashboardController {
         }
     }
 
-    /**
-     * Get validation count per ticket type
-     * GET /api/v1/organiser/events/{eventId}/dashboard/ticket-types
-     *
-     * Response:
-     * [
-     *   {
-     *     "ticketTypeId": 1,
-     *     "ticketTypeName": "VIP",
-     *     "validatedCount": 45
-     *   },
-     *   {
-     *     "ticketTypeId": 2,
-     *     "ticketTypeName": "General Admission",
-     *     "validatedCount": 297
-     *   }
-     * ]
-     */
     @GetMapping("/ticket-types")
     public ResponseEntity<?> getValidationsByTicketType(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -121,24 +68,6 @@ public class OrganiserDashboardController {
         }
     }
 
-    /**
-     * Get validation count per staff member
-     * GET /api/v1/organiser/events/{eventId}/dashboard/staff
-     *
-     * Response:
-     * [
-     *   {
-     *     "staffUserId": "uuid",
-     *     "staffUsername": "staff_abc123",
-     *     "validatedCount": 78
-     *   },
-     *   {
-     *     "staffUserId": "uuid",
-     *     "staffUsername": "staff_xyz789",
-     *     "validatedCount": 65
-     *   }
-     * ]
-     */
     @GetMapping("/staff")
     public ResponseEntity<?> getValidationsByStaff(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -161,28 +90,6 @@ public class OrganiserDashboardController {
         }
     }
 
-    /**
-     * Get detailed list of attendees validated by a specific staff member
-     * GET /api/v1/organiser/events/{eventId}/dashboard/staff/{staffUserId}/validations
-     *
-     * Response (paginated):
-     * {
-     *   "content": [
-     *     {
-     *       "validationId": "uuid",
-     *       "ticketId": "uuid",
-     *       "ticketTypeName": "VIP",
-     *       "attendeeName": "John Doe",
-     *       "attendeeEmail": "john@example.com",
-     *       "validationMethod": "QR",
-     *       "validationStatus": "VALID",
-     *       "validatedAt": "2026-01-20T14:30:00"
-     *     }
-     *   ],
-     *   "totalElements": 78,
-     *   "totalPages": 4
-     * }
-     */
     @GetMapping("/staff/{staffUserId}/validations")
     public ResponseEntity<?> getAttendeesValidatedByStaff(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -210,12 +117,6 @@ public class OrganiserDashboardController {
         }
     }
 
-    /**
-     * 🆕 Get revenue summary for the event
-     * GET /api/v1/organiser/events/{eventId}/dashboard/revenue
-     *
-     * This is an alias/shortcut to get just the revenue data
-     */
     @GetMapping("/revenue")
     public ResponseEntity<?> getRevenueStats(
             @AuthenticationPrincipal UserPrincipal userPrincipal,
@@ -227,7 +128,6 @@ public class OrganiserDashboardController {
         try {
             var stats = statsService.getEventDashboardStats(eventId);
 
-            // Extract only revenue-related data
             Map<String, Object> revenueStats = Map.of(
                     "eventId", stats.get("eventId"),
                     "eventName", stats.get("eventName"),
@@ -244,10 +144,6 @@ public class OrganiserDashboardController {
 
     private final AnalyticsService analyticsService;
 
-    /**
-     * Get list of attendees who have been validated for an event
-     * GET /api/v1/organiser/events/{eventId}/dashboard/attendees
-     */
     @GetMapping("/attendees")
     public ResponseEntity<?> getValidatedAttendees(
             @AuthenticationPrincipal UserPrincipal userPrincipal,

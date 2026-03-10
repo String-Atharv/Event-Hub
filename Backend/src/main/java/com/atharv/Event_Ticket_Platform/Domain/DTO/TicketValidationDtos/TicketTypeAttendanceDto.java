@@ -14,4 +14,3 @@ public class TicketTypeAttendanceDto {
     private String ticketTypeName;
     private long validatedCount;
 }
-

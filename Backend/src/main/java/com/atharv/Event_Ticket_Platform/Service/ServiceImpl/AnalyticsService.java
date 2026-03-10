@@ -1,6 +1,5 @@
 package com.atharv.Event_Ticket_Platform.Service.ServiceImpl;
 
-
 import com.atharv.Event_Ticket_Platform.Domain.DTO.AnalyticDtos.*;
 import com.atharv.Event_Ticket_Platform.Domain.Entity.*;
 import com.atharv.Event_Ticket_Platform.Domain.Enum.EventStatus;
@@ -18,10 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * 📊 Complete Analytics Service
- * Provides comprehensive analytics per ticket type, per event, and across all events
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -31,22 +26,16 @@ public class AnalyticsService {
     private final TicketValidationRepo ticketValidationRepo;
     private final UserRepo userRepo;
 
-    /**
-     * ✅ Get complete analytics for a specific event
-     * Shows ticket sales, revenue, and attendees per ticket type
-     */
     public EventAnalyticsDto getEventAnalytics(UUID eventId, UUID organiserId) {
         log.info("Fetching analytics for event: {}", eventId);
 
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
 
-        // Verify ownership
         if (!event.getOrganiser().getId().equals(organiserId)) {
             throw new IllegalStateException("You don't have permission to view this event");
         }
 
-        // Calculate overall metrics
         long totalTicketsSold = ticketsRepo.countByTicketType_Event_Id(eventId);
         List<Ticket> allTickets = ticketsRepo.findAllByEventId(eventId);
         double totalRevenue = allTickets.stream()
@@ -59,7 +48,6 @@ public class AnalyticsService {
         double overallAttendanceRate = totalTicketsSold > 0 ?
                 (double) totalValidated / totalTicketsSold * 100 : 0;
 
-        // Calculate per ticket type analytics
         List<TicketTypeAnalyticsDto> ticketTypeAnalytics = event.getTicketTypes().stream()
                 .map(ticketType -> calculateTicketTypeAnalytics(ticketType, eventId))
                 .collect(Collectors.toList());
@@ -80,9 +68,6 @@ public class AnalyticsService {
                 .build();
     }
 
-    /**
-     * ✅ Calculate analytics for a specific ticket type
-     */
     private TicketTypeAnalyticsDto calculateTicketTypeAnalytics(TicketType ticketType, UUID eventId) {
         List<Ticket> soldTickets = ticketType.getTicket();
         long ticketsSold = soldTickets.size();
@@ -115,10 +100,6 @@ public class AnalyticsService {
                 .build();
     }
 
-    /**
-     * ✅ Get complete analytics across ALL events for an organizer
-     * This is the main analytics dashboard
-     */
     public OrganiserCompleteAnalyticsDto getCompleteOrganiserAnalytics(UUID organiserId) {
         log.info("Fetching complete analytics for organiser: {}", organiserId);
 
@@ -127,7 +108,6 @@ public class AnalyticsService {
 
         List<Event> allEvents = organiser.getOrganisedEvents();
 
-        // Count event types
         long publishedCount = allEvents.stream()
                 .filter(e -> e.getEventStatus() == EventStatus.PUBLISHED)
                 .count();
@@ -136,7 +116,6 @@ public class AnalyticsService {
                 .filter(e -> e.getEventStatus() == EventStatus.DRAFT)
                 .count();
 
-        // Calculate totals across all events
         long totalTicketsSold = 0;
         double totalRevenue = 0.0;
         long totalValidated = 0;
@@ -163,7 +142,6 @@ public class AnalyticsService {
                         .average()
                         .orElse(0.0);
 
-        // Find top performers
         EventAnalyticsDto mostRevenueEvent = eventAnalyticsList.stream()
                 .max(Comparator.comparing(EventAnalyticsDto::getTotalRevenue))
                 .orElse(null);
@@ -195,10 +173,6 @@ public class AnalyticsService {
                 .build();
     }
 
-    /**
-     * ✅ Get analytics for just published events
-     * Useful for seeing active/live events only
-     */
     public OrganiserCompleteAnalyticsDto getPublishedEventsAnalytics(UUID organiserId) {
         log.info("Fetching published events analytics for organiser: {}", organiserId);
 
@@ -209,13 +183,9 @@ public class AnalyticsService {
                 .filter(e -> e.getEventStatus() == EventStatus.PUBLISHED)
                 .collect(Collectors.toList());
 
-        // Use same logic as complete analytics but only for published events
         return calculateAnalyticsForEventList(organiser, publishedEvents);
     }
 
-    /**
-     * Helper method to calculate analytics for a list of events
-     */
     private OrganiserCompleteAnalyticsDto calculateAnalyticsForEventList(
             User organiser,
             List<Event> events
@@ -281,17 +251,12 @@ public class AnalyticsService {
                 .build();
     }
 
-    /**
-     * 🆕 Get ticket type performance across all events
-     * Shows which ticket type names perform best overall
-     */
     public List<TicketTypePerformanceDto> getTicketTypePerformanceAcrossEvents(UUID organiserId) {
         log.info("Fetching ticket type performance for organiser: {}", organiserId);
 
         User organiser = userRepo.findById(organiserId)
                 .orElseThrow(() -> new IllegalStateException("Organiser not found"));
 
-        // Group all ticket types by name
         Map<String, List<TicketType>> ticketTypesByName = new HashMap<>();
 
         for (Event event : organiser.getOrganisedEvents()) {
@@ -301,7 +266,6 @@ public class AnalyticsService {
             }
         }
 
-        // Calculate performance for each ticket type name
         return ticketTypesByName.entrySet().stream()
                 .map(entry -> {
                     String typeName = entry.getKey();
@@ -341,10 +305,6 @@ public class AnalyticsService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 🆕 Get comparison between events
-     * Useful for side-by-side comparison
-     */
     public Map<String, Object> compareEvents(UUID organiserId, List<UUID> eventIds) {
         log.info("Comparing {} events for organiser {}", eventIds.size(), organiserId);
 
@@ -359,7 +319,6 @@ public class AnalyticsService {
         );
     }
 
-
     public Page<Map<String, Object>> getValidatedAttendees(
             UUID eventId,
             UUID organiserId,
@@ -367,7 +326,6 @@ public class AnalyticsService {
     ) {
         log.info("Fetching validated attendees for event: {}", eventId);
 
-        // Verify event exists and belongs to organiser
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
 
@@ -375,7 +333,6 @@ public class AnalyticsService {
             throw new IllegalStateException("You don't have permission to view this event");
         }
 
-        // Get validated tickets
         Page<TicketValidation> validations = ticketValidationRepo
                 .findValidatedAttendeesByEvent(
                         eventId,
@@ -383,7 +340,6 @@ public class AnalyticsService {
                         pageable
                 );
 
-        // Map to response
         return validations.map(validation -> {
             Ticket ticket = validation.getTicket();
             User attendee = ticket.getPurchaser();

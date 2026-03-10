@@ -10,19 +10,13 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.UUID;
 
-
 public interface QrService {
     QrCode createQr(Ticket ticket);
-
 
     byte[] createQrImage(String QrId) throws RuntimeException, IOException, WriterException;
 
     @Transactional
     void generateNewQrForTicket(Ticket ticket);
-
-
-//    @Transactional
-//    void scanQrOrThrow(String publicCode);
 
     QrCodeDetails qrCodeDetails(UUID userId, UUID ticketId);
 

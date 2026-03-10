@@ -17,17 +17,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-
-
 @RestController
 @RequestMapping(path ="/api/v1/events")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
     private final EventMapper eventMapper;
-    //@AuthenticationPrincipal is used to access authenticated user from Security Context
 
     @PostMapping("createEvent")
     public ResponseEntity<EventCreatedResponseDto> createEvent(@AuthenticationPrincipal UserPrincipal userPrincipal, @Valid @RequestBody CreateEventRequestDto createEventRequestDto){
@@ -47,7 +43,6 @@ public class EventController {
         return new ResponseEntity<>(listEventResponseDtos,HttpStatus.OK);
     }
 
-
     @GetMapping("getEvent/{eventId}")
     public ResponseEntity<EventResponseDto> getEvent(
             @AuthenticationPrincipal UserPrincipal userPrincipal, @PathVariable UUID eventId
@@ -56,7 +51,6 @@ public class EventController {
         Event event = eventService.getEvent(eventId,organiserId);
         return new ResponseEntity<>(eventMapper.toEventResponseDto(event),HttpStatus.OK);
     }
-
 
     @PatchMapping("updateEvent/{eventId}")
     public ResponseEntity<UpdatedEventResponseDto> getEvent(@AuthenticationPrincipal UserPrincipal userPrincipal , @PathVariable UUID eventId, @RequestBody UpdateEventRequestDto updateEventRequestDto){
@@ -83,7 +77,5 @@ public class EventController {
         eventService.deleteTicketType(organiserId, eventId, ticketTypeId);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

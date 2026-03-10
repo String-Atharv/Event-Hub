@@ -15,7 +15,7 @@ import java.util.UUID;
 public class StaffCredentialWithPasswordDto {
     private UUID staffUserId;
     private String username;
-    private String password; // Only returned during generation
+    private String password;
     private String email;
     private LocalDateTime validFrom;
     private LocalDateTime validUntil;

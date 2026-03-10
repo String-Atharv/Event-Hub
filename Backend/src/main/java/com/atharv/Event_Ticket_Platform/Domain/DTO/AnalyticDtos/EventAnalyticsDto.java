@@ -23,12 +23,10 @@ public class EventAnalyticsDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    // Overall event metrics
     private Long totalTicketsSold;
     private Double totalRevenue;
     private Long totalAttendeesValidated;
     private Double overallAttendanceRate;
 
-    // Breakdown by ticket type
     private List<TicketTypeAnalyticsDto> ticketTypeAnalytics;
 }

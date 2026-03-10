@@ -12,23 +12,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface StaffRepo extends JpaRepository<Staff, Long> {
+public interface  StaffRepo extends JpaRepository<Staff, Long> {
 
-    // ✅ Find all staff for a specific event
     Page<Staff> findByCreatedByOrganiserIdAndEventId(
             UUID organiserId,
             UUID eventId,
             Pageable pageable
     );
 
-    // ✅ Find active staff for a specific event
     Page<Staff> findByCreatedByOrganiserIdAndEventIdAndIsActiveTrue(
             UUID organiserId,
             UUID eventId,
             Pageable pageable
     );
 
-    // ✅ Find valid (active + not expired) staff for an event
     @Query("SELECT s FROM Staff s WHERE s.createdByOrganiserId = :organiserId " +
             "AND s.eventId = :eventId " +
             "AND s.isActive = true " +
@@ -40,22 +37,17 @@ public interface StaffRepo extends JpaRepository<Staff, Long> {
             Pageable pageable
     );
 
-    // Find specific staff by user ID
     Optional<Staff> findByStaffUserId(UUID staffUserId);
 
-    // Find all active staff for an organiser (across all events)
     List<Staff> findByCreatedByOrganiserIdAndIsActiveTrue(UUID organiserId);
 
-    // ✅ Find all staff for an organiser and event
     List<Staff> findByCreatedByOrganiserIdAndEventId(
             UUID organiserId,
             UUID eventId
     );
 
-    // Check if staff exists
     boolean existsByStaffUserId(UUID staffUserId);
 
-    // ✅ Count active staff for an event
     @Query("SELECT COUNT(s) FROM Staff s WHERE s.eventId = :eventId " +
             "AND s.isActive = true " +
             "AND s.validUntil > :now")

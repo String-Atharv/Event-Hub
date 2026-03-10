@@ -14,7 +14,6 @@ import java.util.UUID;
 @Repository
 public interface TicketValidationRepo extends JpaRepository<TicketValidation, UUID> {
 
-    // Existing methods
     long countByEvent_IdAndValidationStatus(UUID eventId, TicketValidationStatus status);
 
     long countByEvent_IdAndValidationStatusAndStaff_StaffUserId(
@@ -47,9 +46,6 @@ public interface TicketValidationRepo extends JpaRepository<TicketValidation, UU
             Pageable pageable
     );
 
-    /**
-     * ✅ NEW: Count validations by staff and ticket type
-     */
     @Query("SELECT COUNT(tv) FROM TicketValidation tv " +
             "WHERE tv.staff.staffUserId = :staffUserId " +
             "AND tv.ticket.ticketType.id = :ticketTypeId " +
@@ -60,9 +56,6 @@ public interface TicketValidationRepo extends JpaRepository<TicketValidation, UU
             @Param("status") TicketValidationStatus status
     );
 
-    /**
-     * Find all validated attendees for an event
-     */
     @Query("SELECT DISTINCT tv FROM TicketValidation tv " +
             "JOIN FETCH tv.ticket t " +
             "JOIN FETCH t.purchaser " +
@@ -74,7 +67,5 @@ public interface TicketValidationRepo extends JpaRepository<TicketValidation, UU
             @Param("status") TicketValidationStatus status,
             Pageable pageable
     );
-
-
 
 }

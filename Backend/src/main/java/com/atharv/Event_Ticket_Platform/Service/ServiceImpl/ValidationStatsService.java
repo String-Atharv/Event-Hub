@@ -29,11 +29,6 @@ public class ValidationStatsService {
     private final EventRepo eventRepo;
     private final TicketTypeRepo ticketTypeRepo;
 
-    // ==================== ORGANIZER DASHBOARD METHODS ====================
-
-    /**
-     * 🆕 Complete event dashboard with revenue statistics
-     */
     public Map<String, Object> getEventDashboardStats(UUID eventId) {
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
@@ -43,7 +38,6 @@ public class ValidationStatsService {
                 eventId, TicketValidationStatus.VALID
         );
 
-        // ✅ Calculate revenue
         double totalRevenue = calculateTotalRevenue(eventId);
         List<TicketTypeRevenueDto> revenueByTicketType = calculateRevenueByTicketType(eventId);
 
@@ -58,9 +52,6 @@ public class ValidationStatsService {
         );
     }
 
-    /**
-     * 🆕 Calculate total revenue for an event
-     */
     private double calculateTotalRevenue(UUID eventId) {
         List<Ticket> tickets = ticketsRepo.findAllByEventId(eventId);
         return tickets.stream()
@@ -68,9 +59,6 @@ public class ValidationStatsService {
                 .sum();
     }
 
-    /**
-     * 🆕 Calculate revenue breakdown by ticket type
-     */
     private List<TicketTypeRevenueDto> calculateRevenueByTicketType(UUID eventId) {
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
@@ -94,9 +82,6 @@ public class ValidationStatsService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Get all staff members and their validation counts for an event
-     */
     public List<StaffValidationStatsDto> getAllStaffStatsForEvent(UUID eventId, UUID organiserId) {
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
@@ -125,9 +110,6 @@ public class ValidationStatsService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Get detailed list of attendees validated by a specific staff member
-     */
     public Page<ValidationHistoryDto> getAttendeesValidatedByStaff(
             UUID eventId,
             UUID staffUserId,
@@ -164,9 +146,6 @@ public class ValidationStatsService {
         );
     }
 
-    /**
-     * Get validation stats per ticket type for an event
-     */
     public List<TicketTypeAttendanceDto> getValidatedAttendeesPerTicketType(UUID eventId, UUID organiserId) {
         Event event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
@@ -193,12 +172,6 @@ public class ValidationStatsService {
                 .collect(Collectors.toList());
     }
 
-    // ==================== STAFF PERSONAL METHODS ====================
-
-    /**
-     * 🆕 Get personal stats for a staff member
-     * Shows what THEY can see on their dashboard
-     */
     public Map<String, Object> getStaffPersonalStats(UUID staffUserId) {
         log.info("Getting stats for staff: {}", staffUserId);
 
@@ -221,15 +194,12 @@ public class ValidationStatsService {
         Event event = eventRepo.findById(staff.getEventId())
                 .orElseThrow(() -> new IllegalStateException("Event not found"));
 
-        // ✅ FIX: Calculate time until expiry safely
         LocalDateTime now = LocalDateTime.now();
         Duration timeUntilExpiry = Duration.between(now, staff.getValidUntil());
 
-        // Handle negative durations (already expired)
         long hoursRemaining = Math.max(0, timeUntilExpiry.toHours());
         long minutesRemaining = Math.max(0, timeUntilExpiry.toMinutes() % 60);
 
-        // ✅ Alternative: Calculate time since expiry if expired
         boolean isExpired = staff.isExpired();
         long hoursSinceExpiry = isExpired ? Math.abs(timeUntilExpiry.toHours()) : 0;
         long minutesSinceExpiry = isExpired ? Math.abs(timeUntilExpiry.toMinutes() % 60) : 0;
@@ -251,9 +221,6 @@ public class ValidationStatsService {
 
     }
 
-    /**
-     * 🆕 Get staff validation history (what tickets they validated)
-     */
     public Page<ValidationHistoryDto> getStaffValidationHistory(
             UUID staffUserId,
             Pageable pageable
@@ -281,9 +248,6 @@ public class ValidationStatsService {
         );
     }
 
-    /**
-     * 🆕 Get staff validations grouped by ticket type
-     */
     public List<TicketTypeAttendanceDto> getStaffValidationsByTicketType(UUID staffUserId) {
         Staff staff = staffRepo.findByStaffUserId(staffUserId)
                 .orElseThrow(() -> new IllegalStateException("Staff not found"));
@@ -309,9 +273,6 @@ public class ValidationStatsService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 🆕 Get staff credential information
-     */
     public Map<String, Object> getStaffCredentialInfo(UUID staffUserId) {
         Staff staff = staffRepo.findByStaffUserId(staffUserId)
                 .orElseThrow(() -> new IllegalStateException("Staff not found"));
@@ -333,9 +294,6 @@ public class ValidationStatsService {
         );
     }
 
-    /**
-     * Legacy method - kept for backward compatibility
-     */
     public StaffValidationStatsDto getStaffStats(UUID staffUserId) {
         Staff staff = staffRepo.findByStaffUserId(staffUserId)
                 .orElseThrow(() -> new IllegalStateException("Staff not found"));

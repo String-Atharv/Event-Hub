@@ -19,7 +19,6 @@ public class CreateEventRequestDto {
     @NotBlank(message = "event name is required")
     private String name;
 
-
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     @NotBlank(message = "venue name is required")
@@ -32,6 +31,5 @@ public class CreateEventRequestDto {
 
     private String description;
     private List<CreateTicketTypeRequestDto> ticketTypes = new ArrayList<>();
-
 
 }

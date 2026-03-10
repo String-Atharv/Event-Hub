@@ -28,5 +28,5 @@ public class PublishEventDto {
     private EventStatus eventStatus;
     private EventType eventType;
     private List<ListEventTicketTypeResponseDto> ticketTypes = new ArrayList<>();
-    private String imageUrl; // Optional: for event images
+    private String imageUrl;
 }

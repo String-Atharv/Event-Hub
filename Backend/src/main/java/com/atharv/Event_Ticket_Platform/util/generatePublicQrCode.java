@@ -15,4 +15,3 @@ public class generatePublicQrCode {
         return builder.toString();
     }
 }
-

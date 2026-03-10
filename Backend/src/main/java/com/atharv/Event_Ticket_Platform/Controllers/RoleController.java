@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-/**
- * Controller for managing user roles
- * Provides endpoints to promote users to ORGANISER and check role status
- */
 @RestController
 @RequestMapping("/api/v1/roles")
 @RequiredArgsConstructor
@@ -23,13 +19,6 @@ public class RoleController {
 
     private final RoleElevationService roleElevationService;
 
-    /**
-     * ✅ Promote current user to ORGANISER role
-     * POST /api/v1/roles/promote-to-organiser
-     *
-     * This allows users to explicitly request organiser role promotion
-     * instead of waiting for automatic promotion on first organiser endpoint access
-     */
     @PostMapping("/promote-to-organiser")
     public ResponseEntity<?> promoteToOrganiser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         try {
@@ -56,12 +45,6 @@ public class RoleController {
         }
     }
 
-    /**
-     * ✅ Check if current user has ORGANISER role
-     * GET /api/v1/roles/is-organiser
-     *
-     * Returns whether the authenticated user has organiser role
-     */
     @GetMapping("/is-organiser")
     public ResponseEntity<?> checkIsOrganiser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         try {
@@ -86,12 +69,6 @@ public class RoleController {
         }
     }
 
-    /**
-     * ✅ Get current user profile with roles
-     * GET /api/v1/roles/me
-     *
-     * Returns complete user information including all roles
-     */
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(@AuthenticationPrincipal UserPrincipal userPrincipal) {
         try {
@@ -115,25 +92,5 @@ public class RoleController {
         }
     }
 
-    /**
-     * ✅ Get all available roles in the system
-     * GET /api/v1/roles/available
-     *
-     * Returns list of all possible roles
-     */
-    @GetMapping("/available")
-    public ResponseEntity<?> getAvailableRoles() {
-        return ResponseEntity.ok(Map.of(
-                "roles", new String[]{
-                        "ROLE_USER",
-                        "ROLE_ORGANISER",
-                        "ROLE_STAFF"
-                },
-                "descriptions", Map.of(
-                        "ROLE_USER", "Default role for all registered users - can browse and purchase tickets",
-                        "ROLE_ORGANISER", "Can create events, manage tickets, view analytics, and create staff",
-                        "ROLE_STAFF", "Can validate tickets for specific events (time-limited access)"
-                )
-        ));
-    }
+  
 }
